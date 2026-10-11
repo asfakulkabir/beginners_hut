@@ -1,0 +1,1186 @@
+/* static/src/input.css  —  Beginners Hut design system
+   Tailwind source file. Rebuild with:
+   npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   1. THEME TOKENS
+   Semantic colors are exposed to Tailwind as `bh-bg`, `bh-surface`,
+   `bh-surface-2`, `bh-line`, `bh-text`, `bh-muted`, `bh-faint`.
+   Every value is an "R G B" triplet so Tailwind's <alpha-value> works.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    /* light theme */
+    --bh-bg: 247 250 248; /* #F7FAF8 Off White            */
+    --bh-surface: 255 255 255; /* #FFFFFF                   */
+    --bh-surface-2: 232 245 239; /* #E8F5EF Soft Green       */
+    --bh-line: 226 235 230;
+    --bh-grid-ink: 8 127 91; /* brand green, not --bh-line: a border colour is
+                                tuned to be near-invisible, the grid is not */
+    --bh-grid-alpha: 0.16;
+    --bh-text: 16 35 29; /* #10231D Deep Charcoal       */
+    --bh-muted: 90 107 100;
+    --bh-faint: 138 154 147;
+
+    --bh-nav-bg: 255 255 255;
+    --bh-nav-border: 226 235 230;
+
+    /* brand hues (theme independent) */
+    --bh-green: 8 127 91; /* #087F5B */
+    --bh-green-2: 32 166 106; /* #20A66A */
+    --bh-orange: 255 122 0; /* #FF7A00 */
+    --bh-yellow: 255 201 40; /* #FFC928 */
+  }
+
+  .dark {
+    --bh-bg: 8 18 14;
+    --bh-surface: 16 35 29; /* #10231D */
+    --bh-surface-2: 22 48 42;
+    --bh-line: 35 74 63;
+    --bh-grid-alpha: 0.22; /* lifted a touch: dark surfaces swallow the tint */
+    --bh-text: 232 243 238;
+    --bh-muted: 157 179 170;
+    --bh-faint: 110 138 128;
+
+    --bh-nav-bg: 16 35 29;
+    --bh-nav-border: 35 74 63;
+  }
+
+  /* ---------- base element styles ---------- */
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  /* Horizontal overflow guard.
+     `overflow-x: hidden` on <body> forces overflow-y to `auto`, which turns
+     the body into its own scroll container — that silently breaks Lenis
+     (window.scrollY never changes) and kills every `position: sticky` header.
+     Keep the clipping on <html> instead, and prefer `clip` over `hidden`
+     because `clip` does not create a scrollport. */
+  html {
+    overflow-x: hidden;
+  }
+
+  @supports (overflow: clip) {
+    html {
+      overflow-x: clip;
+    }
+  }
+
+  body {
+    @apply bg-bh-bg text-bh-text font-sans antialiased;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-extrabold tracking-tight;
+  }
+
+  ::selection {
+    background-color: rgb(var(--bh-green));
+    color: #fff;
+  }
+
+  /* Tailwind's preflight strips list markers everywhere. CKEditor content on
+     /blog needs real bullets, so restore them for rich-text areas only —
+     never globally, or every layout <ul> in the UI grows a dot. */
+  .bh-rich ul,
+  .bh-rich ol,
+  .prose ul,
+  .prose ol {
+    list-style: revert;
+  }
+
+  /* Focus ring that works in both themes */
+  :focus-visible {
+    outline: 2px solid rgb(var(--bh-green));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbar — desktop only. Styling `::-webkit-scrollbar` disables Android
+     Chrome's overlay scrollbars, which would cost a permanent 10px of a
+     320px-wide viewport. */
+  @media (min-width: 640px) {
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgb(var(--bh-surface-2));
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgb(var(--bh-faint) / 0.45);
+      border-radius: 99px;
+      border: 2px solid rgb(var(--bh-surface-2));
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgb(var(--bh-green) / 0.7);
+    }
+  }
+}
+
+/* ==========================================================================
+   2. LENIS SMOOTH SCROLL
+   ========================================================================== */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. COMPONENTS
+   ========================================================================== */
+
+@layer components {
+
+  /* ---------- layout ---------- */
+  .bh-container {
+    @apply mx-auto w-full max-w-container px-5 sm:px-7 lg:px-10;
+  }
+
+  .bh-section {
+    @apply py-8 md:py-12;
+  }
+
+  /* ---------- section heading ---------- */
+  /* Sized down on phones: at 320px the `sm:` size wrapped this pill onto two
+     lines (the label is ~379px wide). */
+  .bh-eyebrow {
+    @apply inline-flex max-w-full items-center gap-2 rounded-full border border-bh-line bg-bh-surface
+           px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-bh-muted
+           sm:px-3.5 sm:py-1.5 sm:text-[11px] sm:tracking-[0.18em];
+  }
+
+  .bh-eyebrow-dot {
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500;
+  }
+
+  .bh-title {
+    @apply text-3xl font-extrabold leading-[1.1] tracking-tight text-bh-text sm:text-4xl lg:text-[2.85rem];
+  }
+
+  .bh-subtitle {
+    @apply text-base leading-relaxed text-bh-muted sm:text-[1.0625rem];
+  }
+
+  /* ---------- buttons ---------- */
+  /* `whitespace-nowrap` only above `sm`: on phones a long label (or a CMS-fed
+     one) would push the button wider than the 280px content box. */
+  .btn {
+    @apply inline-flex max-w-full select-none items-center justify-center gap-2 whitespace-normal rounded-full
+           px-6 py-3 text-center text-sm font-bold transition-all duration-300 ease-smooth
+           sm:whitespace-nowrap
+           disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-gradient text-white shadow-glow
+           hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-12px_rgb(8_127_91/0.55)]
+           active:translate-y-0;
+  }
+
+  .btn-accent {
+    @apply btn bg-accent-gradient text-white shadow-glow-accent
+           hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-12px_rgb(255_122_0/0.55)]
+           active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply btn border border-bh-line bg-bh-surface text-bh-text
+           hover:-translate-y-0.5 hover:border-brand-500 hover:text-brand-600
+           dark:hover:text-brand-300;
+  }
+
+  .btn-ghost {
+    @apply btn text-bh-muted hover:bg-bh-surface-2 hover:text-bh-text;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-[13px];
+  }
+
+  /* ---------- surfaces ---------- */
+  .bh-card {
+    @apply rounded-3xl border border-bh-line bg-bh-surface shadow-card transition-all duration-500 ease-smooth;
+  }
+
+  .bh-card-hover {
+    @apply hover:-translate-y-1.5 hover:border-brand-500/40 hover:shadow-card-hover;
+  }
+
+  .bh-panel {
+    @apply rounded-3xl border border-bh-line bg-bh-surface-2/60;
+  }
+
+  /* ---------- chips / tags ---------- */
+  .bh-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-bh-line bg-bh-surface
+           px-3 py-1 text-xs font-semibold text-bh-muted;
+  }
+
+  .bh-chip-brand {
+    @apply border-brand-500/25 bg-brand-500/10 text-brand-700 dark:text-brand-300;
+  }
+
+  .bh-chip-accent {
+    @apply border-accent-500/25 bg-accent-500/10 text-accent-700 dark:text-accent-400;
+  }
+
+  /* ---------- glass surfaces (pricing) ----------
+     Frosted panes that let the tinted background blobs show through. The
+     hairline ::before is what sells the "sheet of glass" look — a faint
+     highlight along the top edge — and it is drawn in both themes. */
+  .bh-glass {
+    @apply relative rounded-3xl border border-white/60 bg-white/55 backdrop-blur-2xl backdrop-saturate-150
+           shadow-[0_8px_32px_-12px_rgb(16_35_29/0.18)] dark:border-white/10 dark:bg-white/[0.06];
+  }
+
+  .bh-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.9), transparent);
+    pointer-events: none;
+  }
+
+  .dark .bh-glass::before {
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
+  }
+
+  .bh-glass-hover {
+    @apply transition-all duration-500 ease-smooth
+           hover:-translate-y-1.5 hover:border-brand-500/40
+           hover:shadow-[0_24px_60px_-24px_rgb(8_127_91/0.45)];
+  }
+
+  .bh-glass-featured {
+    @apply relative overflow-hidden rounded-3xl border border-white/25 text-white
+           bg-gradient-to-br from-brand-700/90 via-brand-600/85 to-brand-500/75
+           shadow-glow backdrop-blur-2xl backdrop-saturate-150
+           ring-1 ring-inset ring-white/20;
+  }
+
+  .bh-glass-featured::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.7), transparent);
+    pointer-events: none;
+  }
+
+  /* currency medallion — the ৳ (BDT) mark on each pricing card */
+  .bh-currency {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/60
+           bg-white/60 text-[18px] font-extrabold leading-none text-brand-700 backdrop-blur-md
+           shadow-[inset_0_1px_0_rgb(255_255_255/0.7)]
+           dark:border-white/10 dark:bg-white/10 dark:text-brand-300;
+  }
+
+  .bh-currency-invert {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/30
+           bg-white/15 text-[18px] font-extrabold leading-none text-white backdrop-blur-md;
+  }
+
+  .bh-glass-pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/55 px-3 py-1
+           text-[11px] font-bold uppercase tracking-[0.14em] text-bh-muted backdrop-blur-md
+           dark:border-white/10 dark:bg-white/10 dark:text-bh-muted;
+  }
+
+  /* filter pill (portfolio) */
+  .bh-filter {
+    @apply cursor-pointer select-none rounded-full border border-bh-line bg-bh-surface px-4 py-2
+           text-[13px] font-bold text-bh-muted transition-all duration-300 ease-smooth
+           hover:border-brand-500/50 hover:text-bh-text;
+  }
+
+  .bh-filter[aria-selected="true"] {
+    @apply border-transparent bg-brand-gradient text-white shadow-glow;
+  }
+
+  /* ---------- text helpers ---------- */
+  .bh-text-gradient {
+    @apply bg-gradient-to-r from-brand-700 via-brand-500 to-accent-500 bg-clip-text text-transparent
+           dark:from-brand-300 dark:via-brand-400 dark:to-accent-400;
+  }
+
+  /* ---------- hero headline weight ----------
+     Manrope stops at 800, which font-extrabold already uses — there is no
+     heavier weight to switch to. To make the hero read heavier anyway, add a
+     hairline stroke on top of the fill. `paint-order: stroke fill` keeps the
+     stroke behind the glyph so the letterforms grow outward instead of
+     hollowing out.
+
+     The stroke colour must be set per span: the solid part strokes with the
+     text colour, and the gradient part strokes with the gradient's own
+     mid-tone, otherwise a solid outline fights the gradient it sits on. */
+  .bh-hero-weight {
+    paint-order: stroke fill;
+  }
+
+  .bh-hero-weight .bh-text-gradient {
+    -webkit-text-stroke-color: theme(colors.brand.600);
+  }
+
+  .dark .bh-hero-weight .bh-text-gradient {
+    -webkit-text-stroke-color: theme(colors.brand.300);
+  }
+
+  /* ---------- rich text article body (CKEditor output) ----------
+     CKEditor emits bare <p>/<h2>/<ul> with no classes and Tailwind's preflight
+     zeroes their margins, so without this block every paragraph runs straight
+     into the next. The base size is deliberately generous — this is the
+     reading surface of a blog post. */
+  .bh-rich {
+    @apply text-[18px] leading-[1.85] text-bh-muted sm:text-[19px];
+  }
+
+  .bh-rich > * + * {
+    margin-top: 1.25em;
+  }
+
+  .bh-rich h2,
+  .bh-rich h3,
+  .bh-rich h4 {
+    @apply text-bh-text;
+  }
+
+  .bh-rich h2 {
+    @apply mt-12 text-3xl sm:text-4xl;
+  }
+
+  .bh-rich h3 {
+    @apply mt-10 text-2xl sm:text-3xl;
+  }
+
+  .bh-rich h4 {
+    @apply mt-8 text-xl;
+  }
+
+  .bh-rich strong,
+  .bh-rich b {
+    @apply font-extrabold text-bh-text;
+  }
+
+  .bh-rich a {
+    @apply font-semibold text-brand-600 underline decoration-brand-500/40 underline-offset-2
+           transition-colors hover:text-brand-500 dark:text-brand-300;
+  }
+
+  .bh-rich ul {
+    @apply list-disc pl-6;
+  }
+
+  .bh-rich ol {
+    @apply list-decimal pl-6;
+  }
+
+  .bh-rich li + li {
+    margin-top: 0.6em;
+  }
+
+  .bh-rich li::marker {
+    @apply font-bold text-brand-500;
+  }
+
+  .bh-rich blockquote {
+    @apply rounded-r-2xl border-l-4 border-brand-500/50 bg-bh-surface-2/60 py-3 pl-5 pr-4
+           italic text-bh-text;
+  }
+
+  .bh-rich img {
+    @apply my-8 w-full rounded-2xl border border-bh-line;
+  }
+
+  .bh-rich hr {
+    @apply my-10 border-0 border-t border-bh-line;
+  }
+
+  .bh-rich code {
+    @apply rounded-md bg-bh-surface-2 px-1.5 py-0.5 text-[0.9em] font-semibold text-bh-text;
+  }
+
+  .bh-rich pre {
+    @apply my-8 overflow-x-auto rounded-2xl bg-ink-900 p-5 text-[15px] leading-relaxed text-white;
+  }
+
+  .bh-rich pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .bh-rich table {
+    @apply my-8 w-full border-collapse text-left text-[16px];
+  }
+
+  .bh-rich th,
+  .bh-rich td {
+    @apply border border-bh-line px-4 py-2.5;
+  }
+
+  .bh-rich th {
+    @apply bg-bh-surface-2 font-bold text-bh-text;
+  }
+
+  .bh-rich figure {
+    @apply my-8;
+  }
+
+  .bh-rich figcaption {
+    @apply mt-2 text-center text-[14px] text-bh-faint;
+  }
+
+  /* gradient hairline border on hover */
+  .bh-ring-hover {
+    position: relative;
+  }
+  .bh-ring-hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #087f5b, #ff7a00);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .bh-ring-hover:hover::after {
+    opacity: 1;
+  }
+
+  /* ---------- decorative ---------- */
+  .bh-blob {
+    @apply pointer-events-none absolute -z-10 rounded-full blur-3xl;
+  }
+
+  /* Blueprint grid. Ink + alpha are theme variables so the lines stay legible
+     on both the near-white and near-black surfaces; the mask keeps the grid
+     strongest at the top centre and dissolves it before the section ends. */
+  .bh-grid-bg {
+    background-image: linear-gradient(
+        to right,
+        rgb(var(--bh-grid-ink) / var(--bh-grid-alpha)) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(var(--bh-grid-ink) / var(--bh-grid-alpha)) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 0%, #000 20%, rgb(0 0 0 / 0.45) 55%, transparent 92%);
+    mask-image: radial-gradient(ellipse 95% 75% at 50% 0%, #000 20%, rgb(0 0 0 / 0.45) 55%, transparent 92%);
+  }
+
+  /* ---------- IMAGE PLACEHOLDER ----------
+     Swap these out for your real artwork. Every placeholder in the
+     portfolio site uses this treatment so they are easy to spot. */
+  .bh-placeholder {
+    @apply relative flex h-full w-full flex-col items-center justify-center gap-2 overflow-hidden
+           bg-bh-surface-2 text-bh-faint;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(var(--bh-faint) / 0.07) 0px,
+      rgb(var(--bh-faint) / 0.07) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+  }
+
+  .bh-placeholder-label {
+    @apply text-[10px] font-bold uppercase tracking-[0.2em];
+  }
+
+  /* media wrapper: keeps every portfolio card the same aspect ratio */
+  .bh-media {
+    @apply relative overflow-hidden bg-bh-surface-2;
+    aspect-ratio: 4 / 3;
+  }
+
+  .bh-media img {
+    @apply h-full w-full object-cover transition-transform duration-[900ms] ease-smooth;
+  }
+
+  .group:hover .bh-media img,
+  .bh-media:hover img {
+    transform: scale(1.06);
+  }
+
+  /* ---------- marquee ----------
+     The track holds the logo set twice, so it is exactly two halves long.
+     `-50%` therefore shifts it by one full set — which is seamless only while
+     the trailing padding equals one gap (I1->I7 spans 6 gaps, and -50% of
+     "12 items + 11 gaps + 1 gap of padding" is 6 items + 6 gaps). The mask
+     fades both ends. */
+  .bh-marquee {
+    @apply relative flex w-full overflow-hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .bh-marquee-track {
+    @apply flex shrink-0 items-center gap-10 pr-10 sm:gap-14 sm:pr-14;
+    animation: bh-marquee-scroll 40s linear infinite;
+    will-change: transform;
+  }
+
+  .bh-marquee:hover .bh-marquee-track,
+  .bh-marquee:focus-within .bh-marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* ---------- client logo ----------
+     Fixed 160x44 box so a tall mark and a wide mark line up in the same row.
+     The box lives here rather than in the template so the rendered size is
+     defined once; the admin upload form recommends 400x110 (2x for retina). */
+  .bh-client-logo {
+    @apply flex h-11 w-40 shrink-0 items-center justify-center;
+  }
+
+  .bh-client-logo-img {
+    @apply h-full w-full object-contain opacity-70 grayscale transition-all duration-500;
+  }
+
+  .bh-client-logo:hover .bh-client-logo-img,
+  .bh-client-logo:focus-visible .bh-client-logo-img {
+    @apply opacity-100 grayscale-0;
+  }
+
+  /* ---------- bare photo tile ----------
+     The graphics grid shows nothing but the photo: no title, no badge, no
+     caption. The only affordance is a slight lift + zoom on hover, and the
+     whole tile is the link the lightbox opens.
+     NOTE: the element also needs Tailwind's `group` class in the markup —
+     `group` cannot be @applied — because the hover states below target
+     descendants of `.group`. */
+  .bh-photo-tile {
+    @apply relative block overflow-hidden rounded-2xl border border-bh-line bg-bh-surface-2
+           transition-all duration-500 ease-smooth hover:-translate-y-1 hover:border-brand-500/40
+           hover:shadow-card-hover;
+  }
+
+  .bh-photo-tile img {
+    @apply aspect-square h-full w-full object-cover transition-transform duration-700 ease-smooth
+           group-hover:scale-[1.06];
+  }
+
+  /* faint overlay so the tile reads as clickable without adding any text */
+  .bh-photo-tile::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 bg-ink-950/0 transition-colors duration-500
+           group-hover:bg-ink-950/10;
+  }
+
+  /* ---------- misc ---------- */
+  .bh-divider {
+    @apply h-px w-full border-0 bg-bh-line;
+  }
+
+  /* skeleton shimmer used while images load */
+  .bh-skeleton {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--bh-surface-2)) 25%,
+      rgb(var(--bh-line)) 37%,
+      rgb(var(--bh-surface-2)) 63%
+    );
+    background-size: 200% 100%;
+    @apply animate-shimmer;
+  }
+
+  /* ---------- scroll reveal ----------
+     Progressive enhancement: content is VISIBLE by default. main.js adds
+     `bh-reveal-ready` to <html> before first paint, which is what actually
+     enables the hidden starting state. If JS is disabled, blocked, or the
+     IntersectionObserver never fires for an element, nothing stays invisible. */
+  .bh-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bh-reveal-ready .bh-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .bh-reveal-ready .bh-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* AOS fallback so content is never invisible if JS fails */
+  [data-aos] {
+    transition-property: transform, opacity;
+  }
+}
+
+/* ==========================================================================
+   3b. ADMIN PANEL
+   The dashboard reuses the public site's design language so it does not read
+   as a different product: same tokens, same brand green, same card and button
+   shapes. Everything the admin templates need lives here.
+   ========================================================================== */
+
+@layer components {
+
+  /* ---------- shell ---------- */
+  .bh-admin-topbar {
+    @apply fixed inset-x-0 top-0 z-[80] h-[72px] border-b border-bh-line
+           bg-bh-surface/80 backdrop-blur-xl;
+  }
+
+  .bh-admin-side {
+    @apply fixed inset-y-0 left-0 z-[70] flex w-[268px] -translate-x-full flex-col
+           border-r border-bh-line bg-bh-surface transition-transform duration-300 ease-smooth;
+  }
+
+  /* opened by the burger on small screens, pinned open from lg up */
+  .bh-admin-side.is-open {
+    @apply translate-x-0;
+  }
+
+  @media (min-width: 1024px) {
+    .bh-admin-side {
+      @apply translate-x-0;
+    }
+  }
+
+  .bh-admin-main {
+    @apply min-h-screen bg-bh-bg pt-[72px] lg:pl-[268px];
+  }
+
+  .bh-admin-wrap {
+    @apply mx-auto w-full max-w-container px-5 py-8 sm:px-7 lg:px-10 lg:py-10;
+  }
+
+  /* ---------- sidebar ---------- */
+  .bh-side-link {
+    @apply flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-[14px] font-bold text-bh-muted
+           transition-colors duration-200 hover:bg-bh-surface-2 hover:text-bh-text;
+  }
+
+  .bh-side-link svg {
+    @apply h-[18px] w-[18px] shrink-0 opacity-60 transition-opacity duration-200;
+  }
+
+  .bh-side-link:hover svg,
+  .bh-side-link.is-active svg {
+    @apply opacity-100;
+  }
+
+  .bh-side-link.is-active {
+    @apply bg-brand-500/10 text-brand-600 dark:text-brand-300;
+  }
+
+  .bh-side-heading {
+    @apply px-3.5 pb-2 pt-6 text-[11px] font-bold uppercase tracking-[0.16em] text-bh-faint;
+  }
+
+  /* ---------- page furniture ---------- */
+  .bh-admin-title {
+    @apply font-display text-[1.6rem] font-extrabold leading-tight tracking-tight text-bh-text sm:text-3xl;
+  }
+
+  .bh-admin-sub {
+    @apply mt-2 text-sm leading-relaxed text-bh-muted;
+  }
+
+  .bh-admin-card {
+    @apply rounded-2xl border border-bh-line bg-bh-surface shadow-card;
+  }
+
+  .bh-admin-card-head {
+    @apply flex flex-wrap items-center justify-between gap-3 border-b border-bh-line px-5 py-4;
+  }
+
+  .bh-admin-card-title {
+    @apply font-display text-[15px] font-extrabold text-bh-text;
+  }
+
+  /* ---------- forms ---------- */
+  .bh-label {
+    @apply mb-2 block text-[13px] font-bold text-bh-text;
+  }
+
+  .bh-hint {
+    @apply mt-1.5 text-[12px] leading-relaxed text-bh-faint;
+  }
+
+  .bh-input {
+    @apply block w-full rounded-xl border border-bh-line bg-bh-bg px-3.5 py-2.5 text-sm text-bh-text
+           placeholder:text-bh-faint focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/20;
+  }
+
+  textarea.bh-input {
+    @apply min-h-[7rem] resize-y;
+  }
+
+  .bh-field {
+    @apply mb-5;
+  }
+
+  /* ---------- table ---------- */
+  .bh-table {
+    @apply w-full border-collapse text-left text-sm;
+  }
+
+  .bh-table th {
+    @apply whitespace-nowrap border-b border-bh-line px-5 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-bh-faint;
+  }
+
+  .bh-table td {
+    @apply border-b border-bh-line/60 px-5 py-3.5 align-middle text-bh-muted;
+  }
+
+  .bh-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .bh-table tbody tr:hover td {
+    @apply bg-bh-surface-2/60;
+  }
+
+  /* ---------- destructive action ---------- */
+  .bh-btn-danger {
+    @apply inline-flex select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-full
+           border border-red-500/30 bg-red-500/10 px-3.5 py-1.5 text-[13px] font-bold text-red-600
+           transition-colors duration-200 hover:border-red-500 hover:bg-red-500 hover:text-white
+           dark:text-red-400 dark:hover:text-white;
+  }
+
+  /* ---------- upload picker ---------- */
+  .bh-dropzone {
+    @apply flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-bh-line
+           bg-bh-surface-2/40 px-5 py-7 text-center transition-colors duration-200
+           hover:border-brand-500/50;
+  }
+
+  .bh-dropzone.is-drag {
+    @apply border-brand-500 bg-brand-500/10;
+  }
+
+  .bh-dropzone input[type="file"] {
+    @apply w-full max-w-xs cursor-pointer rounded-xl border-0 bg-transparent p-0 text-sm text-bh-muted
+           file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-brand-500/10
+           file:px-4 file:py-2 file:text-[13px] file:font-bold file:text-brand-600
+           dark:file:text-brand-300;
+  }
+
+  /* Fixed preview box for an uploaded client logo. Mirrors .bh-client-logo on
+     the public site so what the admin sees is what the marquee renders. */
+  .bh-logo-preview {
+    @apply flex h-11 w-40 shrink-0 items-center justify-center overflow-hidden rounded-lg
+           border border-bh-line bg-bh-surface-2;
+  }
+
+  .bh-logo-preview img {
+    @apply h-full w-full object-contain;
+  }
+
+  .bh-empty {
+    @apply flex flex-col items-center gap-2 px-5 py-12 text-center;
+  }
+
+  /* ---------- toast ---------- */
+  .bh-toast {
+    @apply pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-2xl border
+           border-bh-line bg-bh-surface px-4 py-3.5 text-sm font-semibold text-bh-text shadow-card-hover;
+  }
+}
+
+/* ==========================================================================
+   3c. ADMIN PRIMITIVES
+   Built for section 3b: the admin reuses the public site's buttons and chips
+   (.btn, .bh-chip) and adds the bits a data panel needs — stat tiles, tabs,
+   pagination, badges, toolbars — in the same tokens.
+   ========================================================================== */
+
+@layer components {
+
+  /* ---------- compact buttons ---------- */
+  .bh-btn {
+    @apply inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full
+           border border-bh-line bg-bh-surface px-4 py-2 text-[13px] font-bold text-bh-text
+           transition-all duration-200 ease-smooth hover:border-brand-500/50 hover:bg-bh-surface-2
+           disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .bh-btn-primary {
+    @apply border-transparent bg-brand-gradient text-white shadow-glow hover:bg-brand-600;
+  }
+
+  .bh-btn-primary:hover {
+    @apply -translate-y-0.5;
+  }
+
+  .bh-btn-primary:active {
+    @apply translate-y-0;
+  }
+
+  .bh-btn-sm {
+    @apply px-3 py-1.5 text-[12px];
+  }
+
+  .bh-icon-btn {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-bh-muted transition-colors
+           duration-200 hover:bg-bh-surface-2 hover:text-bh-text;
+  }
+
+  .bh-icon-btn-danger:hover {
+    @apply bg-red-500/10 text-red-600 dark:text-red-400;
+  }
+
+  .bh-icon-btn svg {
+    @apply h-4 w-4;
+  }
+
+  /* ---------- badges ---------- */
+  .bh-badge {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1
+           text-[11px] font-bold uppercase tracking-[0.1em];
+  }
+
+  .bh-badge-live {
+    @apply bg-brand-500/10 text-brand-700 dark:text-brand-300;
+  }
+
+  .bh-badge-draft {
+    @apply bg-amber-500/20 text-amber-700 dark:text-amber-300;
+  }
+
+  .bh-badge-unread {
+    @apply bg-brand-500 text-white;
+  }
+
+  .bh-badge-read {
+    @apply bg-bh-surface-2 text-bh-muted;
+  }
+
+  /* numeric pill used in the sidebar for unread mail */
+  .bh-badge-count {
+    @apply ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-500
+           px-1.5 text-[11px] font-bold text-white;
+  }
+
+  /* ---------- stat tiles ---------- */
+  .bh-stat {
+    @apply flex flex-col justify-between gap-4 rounded-2xl border border-bh-line bg-bh-surface p-5 shadow-card;
+  }
+
+  .bh-stat-label {
+    @apply text-[11px] font-bold uppercase tracking-[0.14em] text-bh-faint;
+  }
+
+  .bh-stat-value {
+    @apply font-display text-[1.9rem] font-extrabold leading-none tracking-tight text-bh-text;
+  }
+
+  .bh-stat-note {
+    @apply text-[12px] text-bh-muted;
+  }
+
+  .bh-stat-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500/10
+           text-brand-600 dark:text-brand-300;
+  }
+
+  .bh-stat-icon svg {
+    @apply h-5 w-5;
+  }
+
+  /* ---------- toolbar + search ---------- */
+  .bh-toolbar {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .bh-search {
+    @apply relative block w-full sm:max-w-xs;
+  }
+
+  .bh-search > svg {
+    @apply pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-bh-faint;
+  }
+
+  .bh-search > input {
+    @apply pl-10;
+  }
+
+  /* ---------- tabs ---------- */
+  .bh-tabs {
+    @apply flex flex-wrap gap-1 rounded-full border border-bh-line bg-bh-surface p-1;
+  }
+
+  .bh-tab {
+    @apply inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[13px] font-bold text-bh-muted
+           transition-colors duration-200 hover:text-bh-text;
+  }
+
+  .bh-tab[aria-selected="true"] {
+    @apply bg-brand-500/10 text-brand-700 dark:text-brand-300;
+  }
+
+  .bh-tab-count {
+    @apply rounded-full bg-bh-surface-2 px-2 py-0.5 text-[11px] font-bold text-bh-muted;
+  }
+
+  /* ---------- pagination ---------- */
+  .bh-pager {
+    @apply flex flex-wrap items-center justify-between gap-3 border-t border-bh-line px-5 py-3.5;
+  }
+
+  .bh-pager-info {
+    @apply text-[12px] text-bh-faint;
+  }
+
+  .bh-pager-links {
+    @apply flex flex-wrap items-center gap-1.5;
+  }
+
+  .bh-page {
+    @apply inline-flex h-9 min-w-9 items-center justify-center rounded-lg border border-bh-line px-2.5
+           text-[13px] font-bold text-bh-muted transition-colors duration-200
+           hover:border-brand-500/50 hover:text-bh-text;
+  }
+
+  .bh-page[aria-current="page"] {
+    @apply border-transparent bg-brand-gradient text-white;
+  }
+
+  .bh-page.is-disabled {
+    @apply pointer-events-none opacity-40;
+  }
+
+  /* ---------- table bits ---------- */
+  .bh-table-wrap {
+    @apply w-full overflow-x-auto;
+  }
+
+  .bh-actions {
+    @apply flex items-center justify-end gap-1;
+  }
+
+  .bh-thumb {
+    @apply h-11 w-16 shrink-0 overflow-hidden rounded-lg border border-bh-line bg-bh-surface-2;
+  }
+
+  .bh-thumb img {
+    @apply h-full w-full object-cover;
+  }
+
+  .bh-cell-title {
+    @apply block max-w-[26ch] truncate font-bold text-bh-text;
+  }
+
+  .bh-cell-sub {
+    @apply block max-w-[34ch] truncate text-[12px] text-bh-faint;
+  }
+
+  /* ---------- inbox ---------- */
+  .bh-toggle {
+    @apply flex w-full items-start gap-3 text-left;
+  }
+
+  .bh-detail {
+    @apply whitespace-pre-line text-[13px] leading-relaxed text-bh-muted;
+  }
+
+  .bh-unread-dot {
+    @apply mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-500;
+  }
+
+  /* ---------- form bits ---------- */
+  .bh-check {
+    @apply h-4 w-4 shrink-0 cursor-pointer rounded border-2 border-bh-line bg-bh-surface text-brand-500
+           focus:ring-2 focus:ring-brand-500/30;
+  }
+
+  .bh-file {
+    @apply block w-full cursor-pointer rounded-xl border-2 border-dashed border-bh-line
+           bg-bh-surface-2/40 px-4 py-3 text-sm text-bh-muted
+           file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-brand-500/10
+           file:px-4 file:py-2 file:text-[13px] file:font-bold file:text-brand-600
+           dark:file:text-brand-300;
+  }
+
+  .bh-file-preview {
+    @apply mt-3 hidden items-center gap-3 rounded-xl border border-bh-line bg-bh-surface-2 p-3;
+  }
+
+  .bh-file-preview.is-on {
+    @apply flex;
+  }
+
+  .bh-file-preview img {
+    @apply h-14 w-20 rounded-lg border border-bh-line bg-bh-surface object-contain;
+  }
+
+  .bh-field-error {
+    @apply mt-1.5 text-[12px] font-semibold text-red-600 dark:text-red-400;
+  }
+
+  .bh-checkline {
+    @apply flex items-start gap-2.5 text-[13px] text-bh-muted;
+  }
+
+  .bh-section-head {
+    @apply mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between;
+  }
+
+  /* ---------- shell extras ---------- */
+  .bh-backdrop {
+    @apply pointer-events-none fixed inset-0 z-[65] bg-bh-text/40 opacity-0 transition-opacity duration-300;
+  }
+
+  .bh-backdrop.is-open {
+    @apply pointer-events-auto opacity-100;
+  }
+
+  .bh-switch-btn {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-bh-line
+           bg-bh-surface text-bh-muted transition-colors duration-200
+           hover:border-brand-500/50 hover:text-bh-text;
+  }
+
+  .bh-menu {
+    @apply absolute right-0 top-[calc(100%+10px)] z-[90] w-56 overflow-hidden rounded-2xl border
+           border-bh-line bg-bh-surface shadow-card-hover;
+  }
+
+  .bh-menu-item {
+    @apply flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[13px] font-bold text-bh-muted
+           transition-colors duration-200 hover:bg-bh-surface-2 hover:text-bh-text;
+  }
+
+  .bh-menu-sep {
+    @apply my-1.5 h-px bg-bh-line;
+  }
+
+  .bh-toasts {
+    @apply fixed right-4 top-[88px] z-[95] flex w-[calc(100%-2rem)] max-w-sm flex-col gap-2.5;
+  }
+
+  /* ---------- confirm dialog ----------
+     Native <dialog> + showModal() so focus trapping, Esc and the backdrop come
+     from the platform instead of hand-rolled JS. */
+  .bh-dialog {
+    @apply m-auto w-[calc(100%-2rem)] max-w-md rounded-3xl border border-bh-line bg-bh-surface p-6
+           text-bh-text shadow-card-hover backdrop:bg-bh-text/50 backdrop:backdrop-blur-sm;
+  }
+
+  .bh-dialog::backdrop {
+    @apply bg-bh-text/50 backdrop-blur-sm;
+  }
+
+  .bh-dialog[open] {
+    @apply animate-none;
+  }
+
+  /* ---------- content pieces ---------- */
+  .bh-avatar {
+    @apply h-9 w-9 shrink-0 rounded-full border border-bh-line bg-bh-surface-2 object-cover;
+  }
+
+  .bh-quote {
+    @apply flex h-full flex-col gap-3 rounded-2xl border border-bh-line bg-bh-surface p-5 shadow-card;
+  }
+
+  .bh-kicker {
+    @apply text-[11px] font-bold uppercase tracking-[0.16em] text-bh-faint;
+  }
+
+  .bh-logo-cell {
+    @apply flex flex-wrap items-center gap-4 border-b border-bh-line/60 px-5 py-3.5;
+  }
+
+  /* ---------- login ---------- */
+  .bh-auth {
+    @apply flex min-h-screen items-center justify-center bg-bh-bg px-5 py-12;
+  }
+
+  .bh-auth-card {
+    @apply w-full max-w-md rounded-3xl border border-bh-line bg-bh-surface p-7 shadow-card sm:p-9;
+  }
+}
+
+/* CKEditor ships a light chrome; nudge the editable area into the dark palette
+   so the post editor does not flash a white slab on a dark page. */
+.dark .ck.ck-editor__editable_inline {
+  background-color: rgb(var(--bh-surface-2));
+}
+
+/* ==========================================================================
+   4. KEYFRAMES
+   ========================================================================== */
+
+/* Client marquee. The track repeats the logo set twice, so -50% is exactly one
+   set — see .bh-marquee-track in the components layer for why that loops clean. */
+@keyframes bh-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ==========================================================================
+   5. ACCESSIBILITY — respect reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .bh-marquee-track {
+    animation: none;
+  }
+
+  .bh-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

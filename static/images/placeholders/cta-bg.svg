@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="Decorative texture">
+  <defs>
+    <pattern id="stripes" width="28" height="28" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
+      <rect width="14" height="28" fill="#ffffff" opacity="0.055"/>
+    </pattern>
+    <radialGradient id="glowA" cx="0.18" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.85" cy="0.9" r="0.75">
+      <stop offset="0" stop-color="#FFC928" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#FFC928" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.02"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.10"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#stripes)"/>
+  <rect width="1200" height="600" fill="url(#glowA)"/>
+  <rect width="1200" height="600" fill="url(#glowB)"/>
+  <rect width="1200" height="600" fill="url(#sheen)"/>
+  <g stroke="#ffffff" stroke-opacity="0.10" fill="none" stroke-width="1.5">
+    <circle cx="150" cy="470" r="120"/>
+    <circle cx="150" cy="470" r="180"/>
+    <circle cx="1060" cy="120" r="130"/>
+    <circle cx="1060" cy="120" r="195"/>
+  </g>
+</svg>

@@ -1,0 +1,130 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}Blog{% endblock title %}
+{% block mobile_title %}Blog{% endblock mobile_title %}
+
+{% block page_title %}Blog{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">Everything you publish, drafts included.</p>{% endblock page_sub %}
+{% block page_actions %}<a href="{% url 'admin_panel:add_blog' %}" class="bh-btn bh-btn-primary">
+  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <path fill-rule="evenodd" d="M10 3.5a.75.75 0 0 1 .75.75v5h5a.75.75 0 0 1 0 1.5h-5v5a.75.75 0 0 1-1.5 0v-5h-5a.75.75 0 0 1 0-1.5h5v-5A.75.75 0 0 1 10 3.5Z" clip-rule="evenodd" />
+</svg>
+  New post
+</a>{% endblock page_actions %}
+
+{% block inner %}
+<div class="bh-admin-card">
+  <div class="bh-admin-card-head">
+    <div class="bh-tabs">
+      <a class="bh-tab" aria-selected="{% if state == 'all' %}true{% else %}false{% endif %}"
+        href="?state=all{% if term %}&amp;q={{ term|urlencode }}{% endif %}">All <span class="bh-tab-count">{{ total }}</span></a>
+      <a class="bh-tab" aria-selected="{% if state == 'published' %}true{% else %}false{% endif %}"
+        href="?state=published{% if term %}&amp;q={{ term|urlencode }}{% endif %}">Live <span class="bh-tab-count">{{ published_total }}</span></a>
+      <a class="bh-tab" aria-selected="{% if state == 'draft' %}true{% else %}false{% endif %}"
+        href="?state=draft{% if term %}&amp;q={{ term|urlencode }}{% endif %}">Drafts <span class="bh-tab-count">{{ draft_total }}</span></a>
+    </div>
+
+    <form method="GET" class="bh-search" role="search">
+      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 3.4 9.84l3.13 3.13a.75.75 0 1 0 1.06-1.06l-3.13-3.13A5.5 5.5 0 0 0 9 3.5ZM5 9a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" />
+      </svg>
+      <label class="sr-only" for="bh-blog-search">Search posts</label>
+      <input id="bh-blog-search" type="search" name="q" value="{{ term }}" class="bh-input" placeholder="Search title, author, body…">
+      <input type="hidden" name="state" value="{{ state }}">
+      <button type="submit" class="sr-only">Search</button>
+    </form>
+  </div>
+
+  {% if blog_posts %}
+  <div class="bh-table-wrap">
+    <table class="bh-table">
+      <thead>
+        <tr>
+          <th scope="col">Post</th>
+          <th scope="col">Author</th>
+          <th scope="col">Status</th>
+          <th scope="col">Views</th>
+          <th scope="col">Published</th>
+          <th scope="col"><span class="sr-only">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in blog_posts %}
+        <tr>
+          <td>
+            <div class="flex items-center gap-3">
+              {% if post.image %}
+              <span class="bh-thumb"><img src="{{ post.image.url }}" alt=""></span>
+              {% else %}
+              <span class="bh-thumb"></span>
+              {% endif %}
+              <div class="min-w-0">
+                <span class="bh-cell-title">{{ post.title }}</span>
+                <span class="bh-cell-sub">{{ post.category }}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="block max-w-[18ch] truncate text-bh-text">{{ post.author|default:'—' }}</span>
+          </td>
+          <td>
+            {% if post.is_published %}
+            <span class="bh-badge bh-badge-live">Live</span>
+            {% else %}
+            <span class="bh-badge bh-badge-draft">Draft</span>
+            {% endif %}
+          </td>
+          <td class="tabular-nums">{{ post.view_count }}</td>
+          <td class="whitespace-nowrap text-[13px]">{{ post.date_time|date:'j M Y' }}</td>
+          <td>
+            <div class="bh-actions">
+              {% if post.is_published %}
+              <form method="POST" action="{% url 'admin_panel:toggle_blog_published' post.pk %}" class="inline"
+                data-bh-confirm-title="Unpublish this post?" data-bh-confirm-body="It will be hidden from the public blog.">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit" class="bh-btn bh-btn-sm" title="Unpublish {{ post.title }}">Unpublish</button>
+              </form>
+              {% else %}
+              <form method="POST" action="{% url 'admin_panel:toggle_blog_published' post.pk %}" class="inline">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit" class="bh-btn bh-btn-sm bh-btn-primary" title="Publish {{ post.title }}">Publish</button>
+              </form>
+              {% endif %}
+              <a class="bh-icon-btn" href="{% url 'admin_panel:update_blog' post.pk %}" title="Edit post" aria-label="Edit {{ post.title }}">
+                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M13.586 3.586a2 2 0 0 1 2.828 2.828l-8.5 8.5a2 2 0 0 1-1.06.44l-2.913.583a.75.75 0 0 1-.912-.912l.583-2.913a2 2 0 0 1 .44-1.06l8.5-8.5Z" />
+                </svg>
+              </a>
+              <form method="POST" action="{% url 'admin_panel:delete_blog' post.pk %}" class="inline"
+                data-bh-confirm-title="Delete this post?" data-bh-confirm-body="“{{ post.title }}” will be removed for good.">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit" class="bh-icon-btn bh-icon-btn-danger" title="Delete post" aria-label="Delete {{ post.title }}">
+                  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8.5 2.5a1 1 0 0 0-1 1V4H5.5a.75.75 0 0 0 0 1.5h9a.75.75 0 0 0 0-1.5h-2V3.5a1 1 0 0 0-1-1h-3ZM5 7.5h10l-.6 8.06A2 2 0 0 1 12.4 17.5H7.6a2 2 0 0 1-2-1.94L5 7.5Zm4 1.75a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm4.5 0a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% include 'dashboard/_pagination.html' with page=blog_posts %}
+  {% else %}
+  <div class="bh-empty">
+    <p class="text-sm font-bold text-bh-text">{% if term %}No posts match “{{ term }}”.{% else %}No posts yet.{% endif %}</p>
+    {% if term %}
+    <a href="{% url 'admin_panel:blog' %}" class="bh-btn bh-btn-sm mt-2">Clear search</a>
+    {% else %}
+    <a href="{% url 'admin_panel:add_blog' %}" class="bh-btn bh-btn-primary mt-2">Write the first post</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock inner %}

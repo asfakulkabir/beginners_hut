@@ -1,0 +1,28 @@
+{% comment %}
+  One item in the homepage client marquee.
+
+  Usage (keep the include tag on ONE line):
+    {% include 'portfolio/partials/client_logo.html' with client=c %}
+    {% include 'portfolio/portfolio/partials/client_logo.html' with client=c duplicate=True %}
+
+  `duplicate=True` marks the second copy of the set: the marquee track holds the
+  logos twice and slides -50%, so the copy that scrolls into view is a visual
+  repeat of one already announced. Both halves MUST come from this same file,
+  otherwise the loop no longer lines up.
+
+  Expects: client.title, client.url, client.href
+{% endcomment %}
+
+{% if client.href %}
+<a href="{{ client.href }}" target="_blank" rel="noopener noreferrer"
+  class="bh-client-logo group" title="{{ client.title }}"
+  {% if duplicate %}aria-hidden="true" tabindex="-1"{% endif %}>
+  <img src="{{ client.url }}" alt="{{ client.title|default:'Client logo' }}" width="160" height="44" loading="lazy"
+    class="bh-client-logo-img">
+</a>
+{% else %}
+<span class="bh-client-logo" title="{{ client.title }}" {% if duplicate %}aria-hidden="true"{% endif %}>
+  <img src="{{ client.url }}" alt="{{ client.title|default:'Client logo' }}" width="160" height="44" loading="lazy"
+    class="bh-client-logo-img">
+</span>
+{% endif %}

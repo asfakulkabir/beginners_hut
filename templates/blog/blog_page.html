@@ -1,0 +1,62 @@
+{% extends "blog/blog_base.html" %}
+{% block meta %}
+<meta name="description" content="Beginners Hut blog: practical guides and updates for building your brand and web presence.">
+{% endblock meta %}
+{% block title %}Blog · Beginners Hut{% endblock title %}
+
+{% block content %}
+<section class="bh-section container mx-auto py-20 md:py-32">
+  <div class="mx-auto max-w-2xl text-center">
+    <div class="bh-eyebrow mx-auto">
+      <span class="bh-eyebrow-dot"></span>
+      <span>Latest Insights</span>
+    </div>
+    <h1 class="bh-title mt-4">The Beginners Hut Blog</h1>
+    <p class="bh-subtitle mt-3">Straightforward tips, tools and ideas to help you grow your business.</p>
+  </div>
+
+  {% if blog_posts %}
+  <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    {% for post in blog_posts %}
+    <article class="bh-card bh-card-hover group flex h-full flex-col">
+      <a href="{% url 'blog_post' post.slug %}" class="block overflow-hidden rounded-xl bg-bh-surface-2">
+        {% if post.image %}
+        <div class="aspect-[3/1] h-full w-full overflow-hidden">
+          <img src="{{ post.image.url }}" alt="{{ post.title }}" class="h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.06]">
+        </div>
+        {% else %}
+        <div class="aspect-[3/1] h-full w-full bg-bh-surface-2"></div>
+        {% endif %}
+      </a>
+      <div class="flex flex-1 flex-col gap-3 p-6">
+        <div class="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-bh-muted">
+          <span class="bh-chip">{{ post.category }}</span>
+          <span>·</span>
+          <time datetime="{{ post.date_time|date:'Y-m-d' }}">{{ post.date_time|date:"d M, Y" }}</time>
+        </div>
+        <a href="{% url 'blog_post' post.slug %}" class="block">
+          <h2 class="text-xl font-extrabold leading-snug text-bh-text transition-colors hover:text-brand-600 dark:hover:text-brand-300">{{ post.title }}</h2>
+        </a>
+        {% if post.meta_description %}
+        <p class="text-[15px] leading-relaxed text-bh-muted">{{ post.meta_description|truncatechars:160 }}</p>
+        {% endif %}
+        <div class="mt-auto">
+          <a href="{% url 'blog_post' post.slug %}" class="btn btn-ghost group/btn">
+            Read article
+            <svg class="h-4 w-4 transition-transform group-hover/btn:translate-x-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L14.586 11H3a1 1 0 1 1 0-2h11.586l-4.293-4.293a1 1 0 0 1 0-1.414Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="bh-empty mt-10">
+    <p class="text-sm font-bold text-bh-text">No blog posts yet.</p>
+    <p class="mt-1 text-[13px] text-bh-muted">We're working on our first article. Check back soon.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

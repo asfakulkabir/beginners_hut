@@ -1,0 +1,74 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}{{ heading }}{% endblock title %}
+{% block mobile_title %}{{ heading }}{% endblock mobile_title %}
+
+{% block page_title %}Client logos{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">The homepage "trusted by" strip. Transparent PNGs around 400 x 110 px.</p>{% endblock page_sub %}
+{% block page_actions %}<a href="{% url 'admin_panel:add_client_logo' %}" class="bh-btn bh-btn-primary">
+  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <path fill-rule="evenodd" d="M10 3.5a.75.75 0 0 1 .75.75v5h5a.75.75 0 0 1 0 1.5h-5v5a.75.75 0 0 1-1.5 0v-5h-5a.75.75 0 0 1 0-1.5h5v-5A.75.75 0 0 1 10 3.5Z" clip-rule="evenodd" />
+</svg>
+  Add logo
+</a>{% endblock page_actions %}
+
+{% block inner %}
+{% if not logos %}
+<div class="bh-admin-card">
+  <div class="bh-empty">
+    <p class="text-sm font-bold text-bh-text">No client logos yet.</p>
+    <p class="max-w-md text-[13px] text-bh-muted">
+      The homepage “trusted by” strip stays hidden until there is at least one logo.
+      Transparent PNGs around 400 x 110 px look best.
+    </p>
+    <a href="{% url 'admin_panel:add_client_logo' %}" class="bh-btn bh-btn-primary mt-2">Upload a logo</a>
+  </div>
+</div>
+{% else %}
+
+<div class="bh-admin-card">
+  <div class="bh-admin-card-head">
+    <h2 class="bh-admin-card-title">{{ total }} logo{{ total|pluralize }}</h2>
+    <form method="GET" class="bh-search" role="search">
+      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 3.4 9.84l3.13 3.13a.75.75 0 1 0 1.06-1.06l-3.13-3.13A5.5 5.5 0 0 0 9 3.5ZM5 9a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" />
+      </svg>
+      <label class="sr-only" for="bh-logo-search">Search logos</label>
+      <input id="bh-logo-search" type="search" name="q" value="{{ term }}" class="bh-input" placeholder="Search clients…">
+      <button type="submit" class="sr-only">Search</button>
+    </form>
+  </div>
+
+  <ul class="divide-y divide-bh-line/60">
+    {% for logo in logos %}
+    <li class="bh-logo-cell">
+      {% if logo.image %}
+      <span class="bh-logo-preview w-48">
+        <img src="{{ logo.image.url }}" alt="{{ logo.title }} logo">
+      </span>
+      {% else %}
+      <span class="bh-logo-preview w-48 text-[12px] font-bold text-bh-faint">No file</span>
+      {% endif %}
+
+      <div class="min-w-0 flex-1">
+        <span class="block truncate text-[14px] font-bold text-bh-text">{{ logo.title }}</span>
+        {% if logo.link %}
+        <a class="block truncate text-[12px] text-brand-600 hover:underline dark:text-brand-300" href="{{ logo.target_url }}"
+          target="_blank" rel="noopener noreferrer">{{ logo.link }}</a>
+        {% else %}
+        <span class="block text-[12px] text-bh-faint">No link</span>
+        {% endif %}
+      </div>
+
+      {% url 'admin_panel:update_client_logo' logo.pk as edit_url %}
+      {% url 'admin_panel:delete_client_logo' logo.pk as delete_url %}
+      {% include 'dashboard/_row_actions.html' with edit_url=edit_url delete_url=delete_url label='logo' %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% include 'dashboard/_pagination.html' with page=logos %}
+</div>
+
+{% endif %}
+
+{% endblock inner %}

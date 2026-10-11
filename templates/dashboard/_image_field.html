@@ -1,0 +1,40 @@
+{% comment %}
+Image control with the current file previewed, a drag-and-drop target and the
+optional clear_image checkbox.
+  {% include 'dashboard/_image_field.html' with field=form.image clear=form.clear_image obj=object %}
+`obj` may be empty (create screen), in which case no preview and no clear
+switch are rendered.
+{% endcomment %}
+<div class="bh-field">
+  <label class="bh-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+  {% if obj and obj.image %}
+  <div class="mb-3 flex items-center gap-3 rounded-xl border border-bh-line bg-bh-surface-2 p-3">
+    <span class="bh-logo-preview">
+      <img src="{{ obj.image.url }}" alt="Current {{ field.label|lower }}">
+    </span>
+    <p class="min-w-0 flex-1 truncate text-[12px] text-bh-faint">{{ obj.image.name }}</p>
+  </div>
+  {% endif %}
+
+  <div class="bh-dropzone" data-bh-dropzone>
+    {{ field }}
+    <p class="text-[12px] text-bh-faint">Drop an image here, or choose a file. PNG or JPG, ideally under 1 MB.</p>
+  </div>
+  <div class="bh-file-preview" data-bh-preview>
+    <img src="" alt="Selected image preview" data-bh-preview-img>
+    <p class="text-[12px] font-semibold text-bh-muted" data-bh-preview-name></p>
+  </div>
+
+  {% if field.help_text %}<p class="bh-hint">{{ field.help_text }}</p>{% endif %}
+  {% for error in field.errors %}
+  <p class="bh-field-error">{{ error }}</p>
+  {% endfor %}
+
+  {% if clear %}
+  <label class="bh-checkline mt-3 cursor-pointer" for="{{ clear.id_for_label }}">
+    {{ clear }}
+    <span>{{ clear.label }}</span>
+  </label>
+  {% endif %}
+</div>

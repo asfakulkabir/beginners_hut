@@ -1,0 +1,49 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}{{ heading }}{% endblock title %}
+{% block mobile_title %}{{ heading }}{% endblock mobile_title %}
+
+{% comment %}
+Shared create/edit screen for the image-and-title collections: print designs,
+post designs and testimonials. Fields not on the form (testimonials have no
+`content` on print designs) simply render nothing.
+{% endcomment %}
+
+{% block page_title %}{{ heading }}{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">{{ sub }}</p>{% endblock page_sub %}
+{% block page_actions %}<a href="{{ back_url }}" class="bh-btn"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 0 1-.02 1.06L9.06 10l3.71 3.71a.75.75 0 1 1-1.06 1.06l-4.24-4.24a.75.75 0 0 1 0-1.06l4.24-4.24a.75.75 0 0 1 1.06.02Z" clip-rule="evenodd" />
+</svg>
+Back</a>{% endblock page_actions %}
+
+{% block inner %}
+<form method="POST" enctype="multipart/form-data" class="max-w-3xl" novalidate>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+  <div class="mb-5 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+    {% for error in form.non_field_errors %}
+    <p class="text-[13px] font-semibold text-red-700 dark:text-red-300">{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="bh-admin-card">
+    <div class="bh-admin-card-head">
+      <h2 class="bh-admin-card-title">Details</h2>
+    </div>
+    <div class="p-5 sm:p-6">
+      {% include 'dashboard/_form_field.html' with field=form.title %}
+      {% if form.content %}
+      {% include 'dashboard/_form_field.html' with field=form.content %}
+      {% endif %}
+      {% include 'dashboard/_image_field.html' with field=form.image clear=form.clear_image obj=form.instance %}
+    </div>
+  </div>
+
+  <div class="mt-6 flex flex-wrap items-center gap-3">
+    <button type="submit" class="bh-btn bh-btn-primary">{{ submit_label }}</button>
+    <a href="{{ back_url }}" class="bh-btn">Cancel</a>
+  </div>
+</form>
+
+{% endblock inner %}

@@ -1,0 +1,38 @@
+{% comment %}
+Pagination bar. Expects `page` (a Page with a `.window` attribute attached by
+admin_panel.views.paginate). Links keep the current filters/search by replaying
+every GET key except `page`.
+{% endcomment %}
+{% if page.paginator.num_pages > 1 or page.paginator.count %}
+<div class="bh-pager">
+  <p class="bh-pager-info">
+    Showing {{ page.start_index }}–{{ page.end_index }} of {{ page.paginator.count }}
+  </p>
+
+  {% if page.paginator.num_pages > 1 %}
+  <nav class="bh-pager-links" aria-label="Pagination">
+    {% if page.has_previous %}
+    <a class="bh-page" href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v|urlencode }}&{% endif %}{% endfor %}page={{ page.previous_page_number }}" rel="prev">Prev</a>
+    {% else %}
+    <span class="bh-page is-disabled">Prev</span>
+    {% endif %}
+
+    {% for item in page.window %}
+      {% if item == '…' %}
+      <span class="px-1 text-bh-faint">…</span>
+      {% elif item == page.number %}
+      <span class="bh-page" aria-current="page">{{ item }}</span>
+      {% else %}
+      <a class="bh-page" href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v|urlencode }}&{% endif %}{% endfor %}page={{ item }}">{{ item }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page.has_next %}
+    <a class="bh-page" href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v|urlencode }}&{% endif %}{% endfor %}page={{ page.next_page_number }}" rel="next">Next</a>
+    {% else %}
+    <span class="bh-page is-disabled">Next</span>
+    {% endif %}
+  </nav>
+  {% endif %}
+</div>
+{% endif %}

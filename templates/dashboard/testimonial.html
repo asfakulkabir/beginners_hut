@@ -1,0 +1,62 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}Testimonials{% endblock title %}
+{% block mobile_title %}Testimonials{% endblock mobile_title %}
+
+{% block page_title %}Testimonials{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">Social proof you can reorder and edit.</p>{% endblock page_sub %}
+{% block page_actions %}<a href="{% url 'admin_panel:add_testimonial' %}" class="bh-btn bh-btn-primary">
+  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <path fill-rule="evenodd" d="M10 3.5a.75.75 0 0 1 .75.75v5h5a.75.75 0 0 1 0 1.5h-5v5a.75.75 0 0 1-1.5 0v-5h-5a.75.75 0 0 1 0-1.5h5v-5A.75.75 0 0 1 10 3.5Z" clip-rule="evenodd" />
+</svg>
+  New testimonial
+</a>{% endblock page_actions %}
+
+{% block inner %}
+<div class="bh-admin-card">
+  <div class="bh-admin-card-head">
+    <h2 class="bh-admin-card-title">{{ total }} testimonial{{ total|pluralize }}</h2>
+    <form method="GET" class="bh-search" role="search">
+      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 3.4 9.84l3.13 3.13a.75.75 0 1 0 1.06-1.06l-3.13-3.13A5.5 5.5 0 0 0 9 3.5ZM5 9a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" />
+      </svg>
+      <label class="sr-only" for="bh-testimonial-search">Search testimonials</label>
+      <input id="bh-testimonial-search" type="search" name="q" value="{{ term }}" class="bh-input" placeholder="Search name or quote…">
+      <button type="submit" class="sr-only">Search</button>
+    </form>
+  </div>
+
+  {% if testimonial %}
+  <div class="grid gap-4 p-5 sm:grid-cols-2">
+    {% for item in testimonial %}
+    <figure class="bh-quote">
+      <svg class="h-5 w-5 shrink-0 text-brand-500/60" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M7.5 4C5.01 4 3 5.79 3 7.95c0 1.6 1.13 2.98 2.65 3.3-.35.62-.9 1.2-1.7 1.6-.32.16-.4.58-.15.82.24.24.62.24.87.02C6.6 12.5 7.9 10.9 8.3 9c.2-.9.13-2.35-.8-3.3A3.9 3.9 0 0 0 7.5 4Zm7.5 0c-2.49 0-4.5 1.79-4.5 3.95 0 1.6 1.13 2.98 2.65 3.3-.35.62-.9 1.2-1.7 1.6-.32.16-.4.58-.15.82.24.24.62.24.87.02 1.93-1.19 3.23-2.79 3.63-4.69.2-.9.13-2.35-.8-3.3A3.9 3.9 0 0 0 15 4Z" />
+      </svg>
+
+      <blockquote class="flex-1 text-[14px] leading-relaxed text-bh-text">{{ item.content }}</blockquote>
+
+      <figcaption class="mt-auto flex items-center gap-3 pt-1">
+        {% if item.image %}
+        <img class="bh-avatar" src="{{ item.image.url }}" alt="">
+        {% else %}
+        <span class="bh-avatar"></span>
+        {% endif %}
+        <cite class="min-w-0 flex-1 truncate text-[13px] font-bold not-italic text-bh-text">{{ item.title }}</cite>
+        {% url 'admin_panel:update_testimonial' item.pk as edit_url %}
+        {% url 'admin_panel:delete_testimonial' item.pk as delete_url %}
+        {% include 'dashboard/_row_actions.html' with edit_url=edit_url delete_url=delete_url label='testimonial' %}
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+
+  {% include 'dashboard/_pagination.html' with page=testimonial %}
+  {% else %}
+  <div class="bh-empty">
+    <p class="text-sm font-bold text-bh-text">{% if term %}No testimonials match “{{ term }}”.{% else %}No testimonials yet.{% endif %}</p>
+    <a href="{% url 'admin_panel:add_testimonial' %}" class="bh-btn bh-btn-primary mt-2">Add the first one</a>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock inner %}

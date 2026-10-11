@@ -1,0 +1,25 @@
+{% comment %}
+One labelled form control with help text and errors.
+  {% include 'dashboard/_form_field.html' with field=form.title %}
+  {% include 'dashboard/_form_field.html' with field=form.is_published check=True %}
+  {% include 'dashboard/_form_field.html' with field=form.content wide=True %}
+{% endcomment %}
+<div class="bh-field">
+  {% if check %}
+  <div class="flex items-start gap-2.5">
+    {{ field }}
+    <label class="bh-checkline cursor-pointer" for="{{ field.id_for_label }}">
+      <span class="font-bold text-bh-text">{{ field.label }}</span>
+      {% if field.help_text %}<span class="mt-0.5 block text-[12px] text-bh-faint">{{ field.help_text }}</span>{% endif %}
+    </label>
+  </div>
+  {% else %}
+  <label class="bh-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+  <div class="{% if wide %}bh-editor{% endif %}">{{ field }}</div>
+  {% if field.help_text %}<p class="bh-hint">{{ field.help_text }}</p>{% endif %}
+  {% endif %}
+
+  {% for error in field.errors %}
+  <p class="bh-field-error">{{ error }}</p>
+  {% endfor %}
+</div>

@@ -1,0 +1,1255 @@
+{% extends 'portfolio/portfolio_base.html' %}
+{% load static %}
+
+{% block title %}Beginners Hut — IT Solution &amp; Digital Agency in Bangladesh{% endblock title %}
+
+{% block canonical %}<link rel="canonical" href="https://www.beginnershut.com/">{% endblock canonical %}
+
+{% block meta %}
+<meta name="keywords"
+    content="IT solution, Web development, Software development, Graphics design company, E-commerce consultation, Video editing, Digital marketing agency, Bangladesh">
+<meta name="description"
+    content="Beginners Hut is a full-stack IT solution agency in Bangladesh. We craft gorgeous websites, custom software, stunning graphics, results-driven e-commerce consultation and professional video editing for brands that want to stand out.">
+<meta name="author" content="Md. Asfakul Kabir, Najmus Sakib">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Beginners Hut — IT Solution &amp; Digital Agency">
+<meta property="og:description"
+    content="Web development, custom software, graphics design, e-commerce consultation and video editing — one team, endless possibilities.">
+<meta property="og:image" content="/static/portfolio_image/beginnershut_about_us_logo.webp">
+<meta property="og:url" content="https://www.beginnershut.com/">
+<meta property="og:site_name" content="Beginners Hut">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Beginners Hut — IT Solution &amp; Digital Agency">
+<meta name="twitter:description" content="Web development, custom software, graphics design, e-commerce consultation and video editing for brands that want to stand out.">
+<meta name="twitter:image" content="/static/portfolio_image/beginnershut_about_us_logo.webp">
+{% endblock meta %}
+
+{% block content %}
+
+<!-- ==================================================================
+     HERO
+     ================================================================== -->
+<section class="relative overflow-hidden pb-16 pt-[86px] sm:pb-20 lg:pb-28 lg:pt-[136px]">
+
+  <!-- decorative background -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="bh-grid-bg absolute inset-0"></div>
+    <div class="bh-blob left-[-10%] top-[-14%] h-[26rem] w-[26rem] bg-brand-300/25 dark:bg-brand-600/20"></div>
+    <div class="bh-blob right-[-12%] top-[24%] h-[22rem] w-[22rem] bg-accent-300/25 dark:bg-accent-600/15"></div>
+  </div>
+
+  <div class="bh-container">
+    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+
+      <!-- ---- copy ---- -->
+      <div class="lg:col-span-6 xl:col-span-6">
+        <span class="bh-eyebrow bh-reveal">
+          <span class="bh-eyebrow-dot"></span>
+          Digital studio · Dhaka, Bangladesh
+        </span>
+
+        <h1 class="bh-hero-weight bh-reveal mt-6 text-[2.6rem] font-black leading-[1.06] tracking-[-0.035em] text-bh-text sm:text-6xl lg:text-[4.1rem]"
+          style="transition-delay:60ms">
+          Your Vision.
+          <span class="bh-text-gradient">Our Digital Craft.</span>
+        </h1>
+
+        <p class="bh-subtitle bh-reveal mt-6 max-w-xl" style="transition-delay:120ms">
+          A full-stack studio crafting websites, software, brand graphics, e-commerce and
+          video — all under one roof, all built to perform.
+        </p>
+
+        <div class="bh-reveal mt-9 flex flex-wrap items-center gap-3.5" style="transition-delay:180ms">
+          <a href="{% url 'contact_us' %}" class="btn-primary">
+            Start a project
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+          <a href="#work" data-bh-scroll class="btn-outline">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 5.5h16v13H4z" />
+              <path d="m4 15 4.5-4.5 3 3L15 10l5 5" />
+            </svg>
+            See our work
+          </a>
+        </div>
+
+        <!-- social proof -->
+        <div class="bh-reveal mt-10 flex flex-wrap items-center gap-x-8 gap-y-5" style="transition-delay:240ms">
+          <div class="flex items-center gap-3">
+            <div class="flex -space-x-2.5">
+              {% for t in testimonial|slice:":3" %}
+              <span class="h-10 w-10 overflow-hidden rounded-full border-2 border-bh-bg bg-bh-surface-2">
+                {% if t.image %}
+                <img src="/media/{{ t.image }}" alt="{{ t.title }}" width="40" height="40" loading="lazy"
+                  class="h-full w-full object-cover">
+                {% else %}
+                <img src="{% static 'images/placeholders/avatar-1.svg' %}" alt="{{ t.title }}" width="40" height="40"
+                  loading="lazy" class="h-full w-full object-cover">
+                {% endif %}
+              </span>
+              {% empty %}
+              {% for i in "123" %}
+              <span class="h-10 w-10 overflow-hidden rounded-full border-2 border-bh-bg bg-bh-surface-2">
+                <img src="{% static 'images/placeholders/avatar-' %}{{ i }}.svg" alt="Client photo placeholder"
+                  width="40" height="40" loading="lazy" class="h-full w-full object-cover">
+              </span>
+              {% endfor %}
+              {% endfor %}
+            </div>
+            <div>
+              <div class="flex items-center gap-1" aria-hidden="true">
+                {% for i in "12345" %}
+                <svg class="h-3.5 w-3.5 text-sun-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
+                </svg>
+                {% endfor %}
+              </div>
+              <p class="mt-1 text-[13px] font-semibold text-bh-muted">
+                Trusted by <span class="text-bh-text">60+ clients</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="hidden h-10 w-px bg-bh-line sm:block"></div>
+
+          <div>
+            <p class="text-2xl font-extrabold text-bh-text sm:text-[1.75rem]">65<span class="text-brand-500">+</span></p>
+            <p class="mt-0.5 text-[13px] font-semibold text-bh-muted">Projects delivered</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- visual ---- -->
+      <div class="lg:col-span-6 xl:col-span-6">
+        <div class="bh-reveal relative" style="transition-delay:200ms">
+          <!-- hero.webp is a transparent cutout — no card behind it, so the grid and
+                 blobs show through. Kept as a plain relative wrapper because
+                 the two overlays below are positioned against it (and
+                 overflow-hidden would have clipped their negative offsets). -->
+          <div class="relative">
+            <!-- intrinsic 900x859 ratio is left to the width/height attributes, so the
+                 artwork is never cropped and there is no layout shift -->
+            <img src="{% static 'images/icons/hero.webp' %}" alt="A Beginners Hut developer working across web, e-commerce and design builds"
+              width="900" height="859" fetchpriority="high" decoding="async"
+              class="h-auto w-full" />
+
+            <!-- floating stat card -->
+            <div class="absolute -bottom-5 left-4 flex items-center gap-3 rounded-2xl border border-bh-line
+                        bg-bh-surface/95 px-4 py-3 shadow-card-hover backdrop-blur sm:-left-6">
+              <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/12 text-brand-600 dark:text-brand-300">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2z" />
+                </svg>
+              </span>
+              <span>
+                <span class="block text-[15px] font-extrabold leading-tight text-bh-text">Fast &amp; modern</span>
+                <span class="block text-[12px] font-semibold text-bh-muted">90+ PageSpeed scores</span>
+              </span>
+            </div>
+
+            <!-- floating badge -->
+            <div class="absolute -right-3 top-6 hidden rounded-2xl border border-bh-line bg-bh-surface/95 px-4 py-3
+                        shadow-card-hover backdrop-blur sm:flex sm:items-center sm:gap-2.5">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-brand-500"></span>
+                <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-500"></span>
+              </span>
+              <span class="text-[13px] font-bold text-bh-text">Available for work</span>
+            </div>
+          </div>
+
+          <!-- accent squares -->
+          <span class="absolute -right-2 -top-2 -z-10 h-20 w-20 rounded-3xl bg-accent-gradient opacity-90 blur-[1px] sm:-right-4 sm:-top-4"
+            aria-hidden="true"></span>
+          <span class="absolute -bottom-8 right-10 -z-10 h-24 w-24 rounded-full bg-brand-500/20 blur-2xl"
+            aria-hidden="true"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     CLIENT MARQUEE
+     ================================================================== -->
+<section class="border-y border-bh-line bg-bh-surface-2/40 py-10">
+  <div class="bh-container">
+    <p class="mb-7 text-center text-[11px] font-bold uppercase tracking-[0.22em] text-bh-faint">
+      Trusted by growing brands &amp; teams
+    </p>
+
+    <div class="bh-marquee">
+      <!-- the set is rendered twice; the track slides -50%, which is exactly one
+           set, so the loop closes without a seam (the gap and the trailing
+           padding on .bh-marquee-track are what make the halves line up) -->
+      <div class="bh-marquee-track">
+        {% for client in client_logos %}
+        {% include 'portfolio/partials/client_logo.html' with client=client %}
+        {% endfor %}
+        {% for client in client_logos %}
+        {% include 'portfolio/partials/client_logo.html' with client=client duplicate=True %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SERVICES
+     ================================================================== -->
+<section id="services" class="bh-section scroll-mt-28">
+  <div class="bh-container">
+
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>What we do</span>
+      <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+        Five services. <span class="bh-text-gradient">One accountable team.</span>
+      </h2>
+      <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:120ms">
+        No hand-offs between vendors, no mystery invoices. Everything your brand needs online,
+        delivered by the people who actually build it.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- 1 · Website Development -->
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group p-7" style="transition-delay:0ms">
+        <span class="inline-flex h-14 w-14 overflow-hidden rounded-2xl shadow-glow">
+          <img src="{% static 'images/placeholders/icon-website.svg' %}" alt="Website development icon placeholder"
+            width="56" height="56" class="h-full w-full object-cover" />
+        </span>
+        <h3 class="mt-6 text-lg font-extrabold text-bh-text">Website Development</h3>
+        <p class="mt-3 text-[14.5px] leading-relaxed text-bh-muted">
+          Business websites, landing pages and e-commerce stores built on Django, Next.js, Laravel
+          or WordPress — fast, responsive and SEO-ready from day one.
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          <li class="bh-chip">Django</li>
+          <li class="bh-chip">Next.js</li>
+          <li class="bh-chip">WordPress</li>
+        </ul>
+        <a href="{% url 'all_work' %}#website"
+          class="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-300">
+          View web projects
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- 2 · Software -->
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group p-7" style="transition-delay:70ms">
+        <span class="inline-flex h-14 w-14 overflow-hidden rounded-2xl shadow-glow">
+          <img src="{% static 'images/placeholders/icon-software.svg' %}" alt="Software development icon placeholder"
+            width="56" height="56" class="h-full w-full object-cover" />
+        </span>
+        <h3 class="mt-6 text-lg font-extrabold text-bh-text">Custom Software</h3>
+        <p class="mt-3 text-[14.5px] leading-relaxed text-bh-muted">
+          Business dashboards, POS systems, inventory tools and internal platforms engineered
+          around how your team actually works.
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          <li class="bh-chip">POS</li>
+          <li class="bh-chip">Dashboards</li>
+          <li class="bh-chip">Laravel</li>
+        </ul>
+        <a href="#work" data-bh-scroll data-bh-jump-filter="software"
+          class="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-300">
+          See software work
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- 3 · Graphics Design -->
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group p-7" style="transition-delay:140ms">
+        <span class="inline-flex h-14 w-14 overflow-hidden rounded-2xl shadow-glow-accent">
+          <img src="{% static 'images/placeholders/icon-graphics.svg' %}" alt="Graphics design icon placeholder"
+            width="56" height="56" class="h-full w-full object-cover" />
+        </span>
+        <h3 class="mt-6 text-lg font-extrabold text-bh-text">Graphics Design</h3>
+        <p class="mt-3 text-[14.5px] leading-relaxed text-bh-muted">
+          Brand identities, social media creatives, packaging and printable artwork that give
+          your business a look people remember.
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          <li class="bh-chip">Branding</li>
+          <li class="bh-chip">Social Media</li>
+          <li class="bh-chip">Print</li>
+        </ul>
+        <a href="#work" data-bh-scroll data-bh-jump-filter="design"
+          class="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-300">
+          See design work
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- 4 · E-commerce Consultation -->
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group p-7" style="transition-delay:0ms">
+        <span class="inline-flex h-14 w-14 overflow-hidden rounded-2xl shadow-glow">
+          <img src="{% static 'images/placeholders/icon-ecommerce.svg' %}"
+            alt="E-commerce consultation icon placeholder" width="56" height="56" class="h-full w-full object-cover" />
+        </span>
+        <h3 class="mt-6 text-lg font-extrabold text-bh-text">E-commerce Consultation</h3>
+        <p class="mt-3 text-[14.5px] leading-relaxed text-bh-muted">
+          Store setup, conversion-focused design, payment and shipping integration plus the
+          strategy that turns first-time visitors into repeat buyers.
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          <li class="bh-chip">Store Setup</li>
+          <li class="bh-chip">CRO</li>
+          <li class="bh-chip">Strategy</li>
+        </ul>
+        <a href="#work" data-bh-scroll data-bh-jump-filter="ecommerce"
+          class="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-300">
+          See e-commerce work
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- 5 · Video Editing -->
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group p-7" style="transition-delay:70ms">
+        <span class="inline-flex h-14 w-14 overflow-hidden rounded-2xl shadow-glow-accent">
+          <img src="{% static 'images/placeholders/icon-video.svg' %}" alt="Video editing icon placeholder"
+            width="56" height="56" class="h-full w-full object-cover" />
+        </span>
+        <h3 class="mt-6 text-lg font-extrabold text-bh-text">Video Editing</h3>
+        <p class="mt-3 text-[14.5px] leading-relaxed text-bh-muted">
+          YouTube edits, reels, product demos and brand films with tight pacing, clean motion
+          graphics and colour grading that holds attention.
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          <li class="bh-chip">Reels</li>
+          <li class="bh-chip">YouTube</li>
+          <li class="bh-chip">Motion</li>
+        </ul>
+        <a href="#contact" data-bh-scroll
+          class="mt-6 inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-300">
+          Book a video project
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- 6 · CTA card (completes the 3-column grid) -->
+      <article
+        class="bh-reveal relative flex flex-col justify-between overflow-hidden rounded-3xl border border-brand-500/20
+               bg-brand-gradient p-7 text-white shadow-glow sm:col-span-2 lg:col-span-1"
+        style="transition-delay:140ms">
+        <div class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl"
+          aria-hidden="true"></div>
+        <div>
+          <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+          <h3 class="mt-6 text-lg font-extrabold">Need something else?</h3>
+          <p class="mt-3 text-[14.5px] leading-relaxed text-white/85">
+            Digital marketing, SEO, domain &amp; hosting, social media management — tell us the
+            goal and we will scope it.
+          </p>
+        </div>
+        <a href="{% url 'contact_us' %}"
+          class="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold
+                 text-brand-700 transition-transform duration-300 hover:-translate-y-0.5">
+          Request a quote
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     PRICING
+     ================================================================== -->
+<!-- ==================================================================
+     PRICING  (frosted glass cards over tinted light)
+     ================================================================== -->
+{% if pricing_plans %}
+<section id="pricing" class="bh-section relative scroll-mt-28">
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div class="absolute left-1/2 top-0 h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-brand-500/25 blur-[110px] dark:bg-brand-500/20"></div>
+    <div class="absolute -right-24 top-1/4 h-72 w-72 rounded-full bg-accent-500/20 blur-[100px]"></div>
+    <div class="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-sun-500/20 blur-[100px]"></div>
+  </div>
+
+  <div class="bh-container relative">
+
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Pricing</span>
+      <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+        Simple plans. <span class="bh-text-gradient">No surprises.</span>
+      </h2>
+      <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:120ms">
+        Transparent starting points for every stage of your business. Need something in between?
+        Tell us the goal and we will scope it with you.
+      </p>
+      <span class="bh-glass-pill bh-reveal mt-5" style="transition-delay:180ms">
+        <span class="text-[13px] font-extrabold leading-none text-brand-600 dark:text-brand-300">৳</span>
+        Prices in BDT
+      </span>
+    </div>
+
+    <div class="mt-14 grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {% for plan in pricing_plans %}
+      {% if plan.is_featured %}
+      <article class="bh-glass-featured bh-reveal relative flex flex-col p-7" style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/20 blur-2xl" aria-hidden="true"></div>
+
+        <div class="relative flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <span class="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] backdrop-blur">
+              Most popular
+            </span>
+            <h3 class="mt-4 text-lg font-extrabold">{{ plan.title }}</h3>
+            {% if plan.tagline %}<p class="mt-1.5 text-[13px] font-semibold text-white/75">{{ plan.tagline }}</p>{% endif %}
+          </div>
+          <span class="bh-currency-invert" title="Bangladeshi Taka" aria-label="Bangladeshi Taka">৳</span>
+        </div>
+
+        <p class="relative mt-6 flex items-baseline gap-1.5">
+          {% if plan.shows_currency_prefix %}<span class="text-2xl font-extrabold leading-none">৳</span>{% endif %}
+          <span class="text-4xl font-extrabold leading-none tracking-tight">{{ plan.price }}</span>
+          {% if plan.period %}<span class="text-[13px] font-semibold text-white/70">{{ plan.period }}</span>{% endif %}
+        </p>
+        {% if plan.description %}
+        <p class="relative mt-4 text-[14.5px] leading-relaxed text-white/85">{{ plan.description }}</p>
+        {% endif %}
+
+        {% if plan.feature_list %}
+        <ul class="relative mt-6 flex-1 space-y-3">
+          {% for feature in plan.feature_list %}
+          <li class="flex items-start gap-2.5 text-[14px] leading-relaxed text-white/90">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 1 1 1.4-1.4l2.8 2.79 6.8-6.79a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
+            </svg>
+            <span>{{ feature }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <a {% if plan.target_url %}href="{{ plan.target_url }}"{% if 'http' in plan.target_url %} target="_blank" rel="noopener noreferrer"{% endif %}{% else %}href="{% url 'contact_us' %}"{% endif %}
+          class="btn relative mt-7 w-full bg-white text-brand-700 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-12px_rgb(0_0_0/0.35)]">
+          {{ plan.cta_text }}
+        </a>
+      </article>
+      {% else %}
+      <article class="bh-glass bh-glass-hover bh-reveal flex flex-col p-7" style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 class="text-lg font-extrabold text-bh-text">{{ plan.title }}</h3>
+            {% if plan.tagline %}<p class="mt-1.5 text-[13px] font-semibold text-bh-faint">{{ plan.tagline }}</p>{% endif %}
+          </div>
+          <span class="bh-currency" title="Bangladeshi Taka" aria-label="Bangladeshi Taka">৳</span>
+        </div>
+
+        <p class="mt-6 flex items-baseline gap-1.5">
+          {% if plan.shows_currency_prefix %}<span class="text-2xl font-extrabold leading-none text-brand-600 dark:text-brand-300">৳</span>{% endif %}
+          <span class="text-4xl font-extrabold leading-none tracking-tight text-bh-text">{{ plan.price }}</span>
+          {% if plan.period %}<span class="text-[13px] font-semibold text-bh-faint">{{ plan.period }}</span>{% endif %}
+        </p>
+        {% if plan.description %}
+        <p class="mt-4 text-[14.5px] leading-relaxed text-bh-muted">{{ plan.description }}</p>
+        {% endif %}
+
+        {% if plan.feature_list %}
+        <ul class="mt-6 flex-1 space-y-3">
+          {% for feature in plan.feature_list %}
+          <li class="flex items-start gap-2.5 text-[14px] leading-relaxed text-bh-muted">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 1 1 1.4-1.4l2.8 2.79 6.8-6.79a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
+            </svg>
+            <span>{{ feature }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <a {% if plan.target_url %}href="{{ plan.target_url }}"{% if 'http' in plan.target_url %} target="_blank" rel="noopener noreferrer"{% endif %}{% else %}href="{% url 'contact_us' %}"{% endif %}
+          class="btn btn-outline mt-7 w-full">
+          {{ plan.cta_text }}
+        </a>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ==================================================================
+     PORTFOLIO  (clean filterable grid)
+     ================================================================== -->
+<section id="work" class="bh-section scroll-mt-28 border-y border-bh-line bg-bh-surface-2/40">
+  <div class="bh-container">
+
+    <!-- heading -->
+    <div class="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-2xl">
+        <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Our work</span>
+        <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+          Selected <span class="bh-text-gradient">projects</span>
+        </h2>
+        <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:120ms">
+          A cross-section of what we ship — live websites, business software, brand graphics and
+          e-commerce builds.
+        </p>
+      </div>
+
+      <div class="bh-reveal shrink-0" style="transition-delay:160ms">
+        <div class="flex items-center gap-3 rounded-2xl border border-bh-line bg-bh-surface px-5 py-4">
+          <span class="text-3xl font-extrabold leading-none text-bh-text">{{ portfolio_total }}<span
+              class="text-brand-500">+</span></span>
+          <span class="text-[13px] font-semibold leading-tight text-bh-muted">Projects<br>delivered</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- filters -->
+    <div class="bh-reveal mt-10 flex flex-wrap items-center gap-2.5" role="tablist" aria-label="Filter projects by service">
+      <button type="button" class="bh-filter" role="tab" data-bh-filter="all" aria-selected="true">
+        All work
+        <span class="ml-1.5 opacity-60">{{ portfolio_total }}</span>
+      </button>
+      <button type="button" class="bh-filter" role="tab" data-bh-filter="website" aria-selected="false">
+        Website <span class="ml-1.5 opacity-60">{{ group_counts.website }}</span>
+      </button>
+      <button type="button" class="bh-filter" role="tab" data-bh-filter="software" aria-selected="false">
+        Software <span class="ml-1.5 opacity-60">{{ group_counts.software }}</span>
+      </button>
+      <button type="button" class="bh-filter" role="tab" data-bh-filter="ecommerce" aria-selected="false">
+        E-Commerce <span class="ml-1.5 opacity-60">{{ group_counts.ecommerce }}</span>
+      </button>
+      <button type="button" class="bh-filter" role="tab" data-bh-filter="design" aria-selected="false">
+        Graphics <span class="ml-1.5 opacity-60">{{ group_counts.design }}</span>
+      </button>
+      <button type="button" class="bh-filter" role="tab" data-bh-filter="video" aria-selected="false">
+        Video <span class="ml-1.5 opacity-60">{{ group_counts.video }}</span>
+      </button>
+    </div>
+
+    <!-- grid -->
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-bh-grid>
+
+      {% for item in portfolio_items %}
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group flex flex-col overflow-hidden"
+        data-bh-item data-group="{{ item.group }}">
+        <div class="bh-media">
+
+          {% if item.link %}
+          <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer"
+            class="absolute inset-0 z-10" aria-label="Visit {{ item.title }}"></a>
+          {% endif %}
+
+          {% if item.image %}
+          <div class="aspect-[3/1] h-full w-full overflow-hidden">
+            <img src="{{ item.image }}" alt="{{ item.title }} — {{ item.group_label }}" width="600" height="200"
+              loading="lazy" decoding="async" class="h-full w-full object-cover">
+          </div>
+          {% else %}
+          <div class="aspect-[3/1] h-full w-full overflow-hidden">
+            <img src="{% static 'images/placeholders/' %}{{ item.placeholder }}" alt="{{ item.title }} — image placeholder"
+              width="600" height="200" loading="lazy" decoding="async" class="h-full w-full object-cover">
+          </div>
+          {% endif %}
+
+          <!-- group badge -->
+          <span class="absolute left-3 top-3 z-20 rounded-full bg-bh-surface px-3 py-1 text-[11px] font-bold
+                       uppercase tracking-[0.1em] text-brand-700 shadow-card dark:text-brand-300">
+            {{ item.group_label }}
+          </span>
+
+          <!-- hover action -->
+          {% if item.link %}
+          <span class="absolute right-3 top-3 z-20 flex h-9 w-9 translate-y-2 items-center justify-center rounded-full
+                       bg-bh-surface/92 text-bh-text opacity-0 shadow-card backdrop-blur transition-all duration-500
+                       ease-smooth group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 5h5v5M19 5l-8 8M18 14v4a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 18V8a1.5 1.5 0 0 1 1.5-1.5h4" />
+            </svg>
+          </span>
+          {% else %}
+          <span class="absolute right-3 top-3 z-20 flex h-9 w-9 translate-y-2 items-center justify-center rounded-full
+                       bg-bh-surface/92 text-bh-text opacity-0 shadow-card backdrop-blur transition-all duration-500
+                       ease-smooth group-hover:translate-y-0 group-hover:opacity-100" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="m20 20-4.5-4.5" />
+            </svg>
+          </span>
+          {% endif %}
+        </div>
+
+        <div class="flex flex-1 flex-col p-5">
+          <h3 class="text-[15.5px] font-extrabold leading-snug text-bh-text transition-colors duration-300
+                     group-hover:text-brand-600 dark:group-hover:text-brand-300">
+            {{ item.title }}
+          </h3>
+
+          {% if item.tech %}
+          <ul class="mt-3 flex flex-wrap gap-1.5">
+            {% for tech in item.tech|slice:":2" %}
+            <li class="bh-chip">{{ tech }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p class="mt-2 text-[13px] font-semibold text-bh-faint">{{ item.meta }}</p>
+          {% endif %}
+
+          <div class="mt-auto pt-4">
+            {% if item.link %}
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-bold text-bh-muted">
+              Visit project
+              <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </span>
+            {% else %}
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-bold text-bh-muted">
+              {% if item.kind == 'print' %}Print piece{% elif item.kind == 'post' %}Social post{% else %}Case study{% endif %}
+            </span>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% empty %}
+
+      <!-- graceful empty state if no projects exist yet -->
+      <div class="col-span-full bh-panel bh-reveal flex flex-col items-center gap-3 p-12 text-center">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-500/10 text-brand-600 dark:text-brand-300">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2.5" />
+            <path d="m3 16 4.5-4.5 3 3L15 10l6 6" />
+          </svg>
+        </span>
+        <p class="text-lg font-extrabold text-bh-text">Projects coming soon</p>
+        <p class="max-w-sm text-sm text-bh-muted">
+          New work is being added regularly. Add entries from the admin panel or get in touch for a
+          tailored proposal.
+        </p>
+      </div>
+
+      {% endfor %}
+
+      <!-- empty state shown by JS when a filter has no matches -->
+      <div data-bh-empty hidden
+        class="col-span-full flex flex-col items-center gap-3 rounded-3xl border border-dashed border-bh-line p-12 text-center">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-500/10 text-accent-600 dark:text-accent-400">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5" />
+            <path d="m20 20-4.5-4.5M8.5 11h5" />
+          </svg>
+        </span>
+        <p class="text-lg font-extrabold text-bh-text">Nothing in this category yet</p>
+        <p class="max-w-sm text-sm text-bh-muted">
+          We are actively producing work here. Ask us for a sample or start a project request.
+        </p>
+        <a href="#contact" data-bh-scroll class="btn-primary btn-sm mt-1">Request a sample</a>
+      </div>
+    </div>
+
+    <!-- load more -->
+    <div class="mt-10 flex flex-col items-center gap-3">
+      <button type="button" data-bh-load-more hidden
+        class="btn-outline px-7 py-3.5">
+        <span data-bh-load-label>Load more projects</span>
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 5v14M6 13l6 6 6-6" />
+        </svg>
+      </button>
+      <p data-bh-item-count class="text-[13px] font-semibold text-bh-faint"></p>
+
+      <a href="{% url 'all_work' %}" class="btn-primary mt-2 px-7 py-3.5">
+        View full portfolio
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     WHY US
+     ================================================================== -->
+<section class="bh-section">
+  <div class="bh-container">
+
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <!-- copy -->
+      <div class="lg:col-span-5">
+        <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Why Beginners Hut</span>
+        <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+          Built for businesses that <span class="bh-text-gradient">outgrow templates.</span>
+        </h2>
+        <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:120ms">
+          We do not resell themes. Every project starts from a blank canvas, an understanding of
+          your customers, and a plan for what success looks like six months from launch.
+        </p>
+        <a href="{% url 'about_us' %}" class="btn-outline bh-reveal mt-7" style="transition-delay:180ms">
+          More about the team
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- feature grid -->
+      <div class="grid gap-5 sm:grid-cols-2 lg:col-span-7">
+        {% for f in "0123" %}
+        <div class="bh-card bh-card-hover bh-reveal p-6" style="transition-delay:{{ forloop.counter0 }}0ms">
+          {% if forloop.counter == 1 %}
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-500/12 text-brand-600 dark:text-brand-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 3 7.5 12 12l9-4.5L12 3ZM3 12.5 12 17l9-4.5M3 17 12 21.5 21 17" />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-[15.5px] font-extrabold text-bh-text">Custom-built, never templated</h3>
+          <p class="mt-2 text-[14px] leading-relaxed text-bh-muted">
+            Original layouts and code written for your brand, so you never look like everyone else.
+          </p>
+          {% elif forloop.counter == 2 %}
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent-500/12 text-accent-600 dark:text-accent-400">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
+              <path d="M11 18.5h2" />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-[15.5px] font-extrabold text-bh-text">Mobile-first &amp; genuinely fast</h3>
+          <p class="mt-2 text-[14px] leading-relaxed text-bh-muted">
+            Designed for small screens first, then optimised for Core Web Vitals on every page we ship.
+          </p>
+          {% elif forloop.counter == 3 %}
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sun-500/15 text-sun-600 dark:text-sun-400">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="m20 20-4.5-4.5" />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-[15.5px] font-extrabold text-bh-text">SEO &amp; performance included</h3>
+          <p class="mt-2 text-[14px] leading-relaxed text-bh-muted">
+            Clean semantics, meta tags, sitemaps, schema and analytics wired in from the beginning.
+          </p>
+          {% else %}
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-500/12 text-brand-600 dark:text-brand-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-3.2-6.9" />
+              <path d="M21 4v5h-5" />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-[15.5px] font-extrabold text-bh-text">Support after launch</h3>
+          <p class="mt-2 text-[14px] leading-relaxed text-bh-muted">
+            Updates, backups and ongoing tweaks — we stay reachable long after the invoice is paid.
+          </p>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     PROCESS
+     ================================================================== -->
+<section class="bh-section border-y border-bh-line bg-bh-surface-2/40">
+  <div class="bh-container">
+
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>How we work</span>
+      <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+        A simple, <span class="bh-text-gradient">proven process</span>
+      </h2>
+      <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:120ms">
+        Four stages, constant communication, and a clear definition of done at every step.
+      </p>
+    </div>
+
+    <div class="relative mt-14">
+      <!-- connector -->
+      <div class="pointer-events-none absolute left-0 right-0 top-[34px] hidden h-px lg:block
+                  bg-gradient-to-r from-transparent via-bh-line to-transparent" aria-hidden="true"></div>
+
+      <ol class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        {% for step in "1234" %}
+        <li class="bh-reveal relative text-center lg:text-left" style="transition-delay:{{ forloop.counter0 }}0ms">
+          <span class="relative mx-auto flex h-[68px] w-[68px] items-center justify-center rounded-2xl
+                       border border-bh-line bg-bh-surface text-2xl font-extrabold text-bh-text shadow-card
+                       lg:mx-0">
+            {% if forloop.counter == 1 %}
+            <svg class="h-6 w-6 text-brand-600 dark:text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m20 20-4.7-4.7" />
+            </svg>
+            {% elif forloop.counter == 2 %}
+            <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15.5 3.5 20.5 8.5 8.5 20.5l-5.5 1 1-5.5 11.5-12.5Z" />
+            </svg>
+            {% elif forloop.counter == 3 %}
+            <svg class="h-6 w-6 text-sun-600 dark:text-sun-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m9 8-5 4 5 4M15 8l5 4-5 4" />
+            </svg>
+            {% else %}
+            <svg class="h-6 w-6 text-brand-600 dark:text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.5c3.5 2.4 5.5 6 5.5 10 0 3.6-2 6.8-5.5 9-3.5-2.2-5.5-5.4-5.5-9 0-4 2-7.6 5.5-10Z" />
+              <circle cx="12" cy="11" r="2.2" />
+            </svg>
+            {% endif %}
+          </span>
+
+          <p class="mt-3 text-[11px] font-bold uppercase tracking-[0.18em] text-bh-faint">Step 0{{ step }}</p>
+          {% if forloop.counter == 1 %}
+          <h3 class="mt-1.5 text-[17px] font-extrabold text-bh-text">Discover</h3>
+          <p class="mt-2.5 text-[14px] leading-relaxed text-bh-muted">
+            We dig into your business, customers and competitors, then agree on goals and a realistic timeline.
+          </p>
+          {% elif forloop.counter == 2 %}
+          <h3 class="mt-1.5 text-[17px] font-extrabold text-bh-text">Design</h3>
+          <p class="mt-2.5 text-[14px] leading-relaxed text-bh-muted">
+            Wireframes, then polished UI. You review real screens and request changes before a line of code is written.
+          </p>
+          {% elif forloop.counter == 3 %}
+          <h3 class="mt-1.5 text-[17px] font-extrabold text-bh-text">Build</h3>
+          <p class="mt-2.5 text-[14px] leading-relaxed text-bh-muted">
+            Clean, tested, documented development in short cycles so you always see progress and never a big-bang reveal.
+          </p>
+          {% else %}
+          <h3 class="mt-1.5 text-[17px] font-extrabold text-bh-text">Launch &amp; support</h3>
+          <p class="mt-2.5 text-[14px] leading-relaxed text-bh-muted">
+            Deployment, domain, SSL, training and post-launch care. We stick around to help it grow.
+          </p>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     STATS
+     ================================================================== -->
+<section class="bh-section">
+  <div class="bh-container">
+    <div class="bh-card bh-reveal relative overflow-hidden p-8 sm:p-12">
+      <div class="pointer-events-none absolute inset-x-0 -top-24 h-48 bg-gradient-to-b from-brand-500/10 to-transparent"
+        aria-hidden="true"></div>
+
+      <!-- EDITABLE: replace these figures with your live numbers -->
+      <!-- gap-8 -> gap-4 on phones: the uppercase labels are wider than a 124px column at 320px -->
+      <dl class="relative grid grid-cols-2 gap-x-4 gap-y-6 text-center sm:gap-8 lg:grid-cols-4">
+        <div class="bh-reveal">
+          <dt class="sr-only">Projects delivered</dt>
+          <dd class="text-4xl font-extrabold text-bh-text sm:text-5xl">
+            <span data-bh-count="65" data-bh-suffix="+">0</span>
+          </dd>
+          <p class="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-bh-faint sm:text-[13px] sm:tracking-[0.12em]">
+            Projects delivered
+          </p>
+        </div>
+        <div class="bh-reveal" style="transition-delay:80ms">
+          <dt class="sr-only">Client satisfaction</dt>
+          <dd class="text-4xl font-extrabold text-bh-text sm:text-5xl">
+            <span data-bh-count="98" data-bh-suffix="%">0</span>
+          </dd>
+          <p class="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-bh-faint sm:text-[13px] sm:tracking-[0.12em]">
+            Client satisfaction
+          </p>
+        </div>
+        <div class="bh-reveal" style="transition-delay:160ms">
+          <dt class="sr-only">Services offered</dt>
+          <dd class="text-4xl font-extrabold text-bh-text sm:text-5xl">
+            <span data-bh-count="5">0</span>
+          </dd>
+          <p class="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-bh-faint sm:text-[13px] sm:tracking-[0.12em]">
+            Core services
+          </p>
+        </div>
+        <div class="bh-reveal" style="transition-delay:240ms">
+          <dt class="sr-only">Support response time</dt>
+          <dd class="text-4xl font-extrabold text-bh-text sm:text-5xl">
+            <span data-bh-count="24" data-bh-prefix="<">0</span><span class="text-brand-500">h</span>
+          </dd>
+          <p class="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-bh-faint sm:text-[13px] sm:tracking-[0.12em]">
+            Support response
+          </p>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     TESTIMONIALS
+     ================================================================== -->
+<section class="bh-section border-y border-bh-line bg-bh-surface-2/40">
+  <div class="bh-container">
+
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Testimonials</span>
+      <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+        What our <span class="bh-text-gradient">clients say</span>
+      </h2>
+      <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:120ms">
+        Long-term relationships, honest feedback and work we are proud to put our name on.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {% for t in testimonial %}
+      <figure class="bh-card bh-card-hover bh-reveal flex h-full flex-col p-7" style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="flex items-center gap-1" aria-label="Rated 5 out of 5">
+          {% for i in "12345" %}
+          <svg class="h-4 w-4 text-sun-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
+          </svg>
+          {% endfor %}
+        </div>
+
+<blockquote class="mt-5 flex-1 text-[14.5px] leading-relaxed text-bh-muted">
+          <svg class="mb-2 h-6 w-6 text-brand-500/30" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true">
+            <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
+          </svg>
+          <p class="break-words">{{ t.content }}</p>
+        </blockquote>
+
+        <figcaption class="mt-6 flex items-center gap-3.5 border-t border-bh-line pt-5">
+          <span class="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-bh-surface-2">
+            {% if t.image %}
+            <img src="/media/{{ t.image }}" alt="{{ t.title }}" width="48" height="48" loading="lazy"
+              class="h-full w-full object-cover">
+            {% else %}
+            <img src="{% static 'images/placeholders/avatar-1.svg' %}" alt="{{ t.title }} photo placeholder"
+              width="48" height="48" loading="lazy" class="h-full w-full object-cover">
+            {% endif %}
+          </span>
+          <span class="min-w-0">
+            <span class="block break-words text-[15px] font-extrabold text-bh-text">{{ t.title }}</span>
+            <span class="block text-[13px] font-semibold text-bh-faint">Verified client</span>
+          </span>
+        </figcaption>
+      </figure>
+      {% empty %}
+      <div class="bh-panel bh-reveal col-span-full p-10 text-center">
+        <p class="text-sm text-bh-muted">Testimonials will appear here once added from the admin panel.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     BLOG
+     ================================================================== -->
+<section class="bh-section">
+  <div class="bh-container">
+
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl">
+        <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>From the blog</span>
+        <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+          Ideas worth <span class="bh-text-gradient">reading</span>
+        </h2>
+      </div>
+      <a href="{% url 'blog' %}" class="btn-outline bh-reveal shrink-0" style="transition-delay:120ms">
+        All articles
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {% for post in blog_posts %}
+      <article class="bh-card bh-card-hover bh-ring-hover bh-reveal group overflow-hidden"
+        style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="bh-media">
+          <a href="{{ post.get_absolute_url }}" class="absolute inset-0 z-10" aria-label="Read {{ post.title }}"></a>
+          {% if post.image %}
+          <div class="aspect-[3/1] h-full w-full overflow-hidden bg-bh-surface-2">
+            <img src="/media/{{ post.image }}" alt="{{ post.title }}" width="600" height="200" loading="lazy"
+              decoding="async" class="h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.06]">
+          </div>
+          {% else %}
+          <div class="aspect-[3/1] h-full w-full overflow-hidden bg-bh-surface-2">
+            <img src="{% static 'images/placeholders/' %}{% cycle 'blog-1.svg' 'blog-2.svg' 'blog-3.svg' %}"
+              alt="{{ post.title }} — cover placeholder" width="600" height="200" loading="lazy" decoding="async"
+              class="h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.06]">
+          </div>
+          {% endif %}
+          <span class="absolute left-3 top-3 z-20 rounded-full bg-bh-surface/95 px-2.5 py-0.5 text-[11px] font-bold
+                       uppercase tracking-[0.12em] text-brand-700 shadow-card backdrop-blur dark:text-brand-300">
+            {{ post.category|default:"Article" }}
+          </span>
+        </div>
+
+        <div class="flex flex-1 flex-col p-5">
+          <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-bh-faint">
+            <time datetime="{{ post.date_time|date:'Y-m-d' }}">{{ post.date_time|date:"d M Y" }}</time>
+            <span>•</span>
+            <span>By {{ post.author }}</span>
+          </div>
+          <h3 class="mt-2 line-clamp-2 text-[16px] font-extrabold leading-snug text-bh-text transition-colors duration-300
+                     group-hover:text-brand-600 dark:group-hover:text-brand-300">
+            {{ post.title }}
+          </h3>
+          <div class="mt-auto pt-4">
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-bold text-bh-muted transition-transform duration-300 group-hover:translate-x-0.5">
+              Read article
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% if not blog_posts %}
+    <div class="bh-empty mt-10">
+      <p class="text-sm font-bold text-bh-text">No blog posts yet.</p>
+      <p class="mt-1 text-[13px] text-bh-muted">We're working on our first article. Check back soon.</p>
+    </div>
+    {% endif %}
+  </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     CTA BAND
+     ================================================================== -->
+<section class="pb-4">
+  <div class="bh-container">
+    <div class="bh-reveal relative overflow-hidden rounded-[2rem] bg-brand-gradient px-7 py-14 shadow-glow sm:px-12 sm:py-16">
+      <img src="{% static 'images/placeholders/cta-bg.svg' %}" alt="" aria-hidden="true" width="1200" height="600"
+        loading="lazy" class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90 mix-blend-soft-light">
+
+      <div class="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-white/12 blur-3xl"
+        aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-accent-500/25 blur-3xl"
+        aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-3xl text-center">
+        <h2 class="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-[2.75rem]">
+          Ready to build something your customers remember?
+        </h2>
+        <p class="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/85 sm:text-base">
+          Tell us about your project. You will get a clear plan, an honest quote and a delivery
+          date — usually within one business day.
+        </p>
+        <div class="mt-9 flex flex-wrap items-center justify-center gap-3.5">
+          <a href="#contact" data-bh-scroll
+            class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-brand-700
+                   shadow-card transition-transform duration-300 ease-smooth hover:-translate-y-0.5">
+            Get a free consultation
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+          <a href="https://wa.me/8801976375435" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/10 px-7 py-3.5
+                   text-sm font-bold text-white backdrop-blur transition-colors duration-300 hover:bg-white/20">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12.04 2A9.9 9.9 0 0 0 2.1 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01a9.9 9.9 0 0 0 9.94-9.9A9.9 9.9 0 0 0 12.05 2Zm4.5 12.98c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.53.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.09-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.23.24-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z" />
+            </svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     CONTACT
+     ================================================================== -->
+<section id="contact" class="bh-section scroll-mt-28">
+  <div class="bh-container">
+
+    <div class="grid gap-8 lg:grid-cols-12 lg:gap-10">
+
+      <!-- form -->
+      <div class="lg:col-span-7">
+        <div class="bh-card bh-reveal h-full p-7 sm:p-9">
+          <span class="bh-eyebrow"><span class="bh-eyebrow-dot"></span>Get in touch</span>
+          <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-bh-text sm:text-3xl">
+            Tell us about your project
+          </h2>
+          <p class="mt-3 text-[14.5px] leading-relaxed text-bh-muted">
+            Share a few details and we will reply with next steps, an estimate and any questions
+            we still have.
+          </p>
+
+          <form method="POST" action="{% url 'contact_us' %}" class="mt-8 space-y-5">
+            {% csrf_token %}
+
+            <div>
+              <label for="mail" class="mb-2 block text-[13px] font-bold text-bh-text">Your email</label>
+              <input type="email" id="mail" name="mail" required placeholder="you@company.com"
+                class="w-full rounded-xl border border-bh-line bg-bh-surface-2/50 px-4 py-3 text-[14.5px] text-bh-text
+                       placeholder:text-bh-faint transition-colors duration-300
+                       focus:border-brand-500 focus:bg-bh-surface focus:outline-none focus:ring-4 focus:ring-brand-500/12">
+            </div>
+
+            <div>
+              <label for="subject" class="mb-2 block text-[13px] font-bold text-bh-text">Subject</label>
+              <input type="text" id="subject" name="subject" required
+                placeholder="e.g. E-commerce store with product catalogue"
+                class="w-full rounded-xl border border-bh-line bg-bh-surface-2/50 px-4 py-3 text-[14.5px] text-bh-text
+                       placeholder:text-bh-faint transition-colors duration-300
+                       focus:border-brand-500 focus:bg-bh-surface focus:outline-none focus:ring-4 focus:ring-brand-500/12">
+            </div>
+
+            <div>
+              <label for="message" class="mb-2 block text-[13px] font-bold text-bh-text">Project details</label>
+              <textarea id="message" name="message" rows="6" placeholder="Budget range, timeline, links to reference sites — anything that helps."
+                class="w-full resize-y rounded-xl border border-bh-line bg-bh-surface-2/50 px-4 py-3 text-[14.5px] text-bh-text
+                       placeholder:text-bh-faint transition-colors duration-300
+                       focus:border-brand-500 focus:bg-bh-surface focus:outline-none focus:ring-4 focus:ring-brand-500/12"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary w-full sm:w-auto">
+              Send message
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m4 12 16-8-6 16-2.5-6.5L4 12Z" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- info -->
+      <div class="lg:col-span-5">
+        <div class="flex h-full flex-col gap-5">
+
+          <div class="bh-card bh-reveal p-7">
+            <h3 class="text-lg font-extrabold text-bh-text">Contact details</h3>
+            <ul class="mt-5 space-y-4">
+              <li class="flex items-start gap-3.5">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500/12 text-brand-600 dark:text-brand-300">
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h13A1.5 1.5 0 0 1 18 5.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 2 14.5v-9Z"/></svg>
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-[11px] font-bold uppercase tracking-[0.14em] text-bh-faint">Email</span>
+                  <a href="mailto:info@beginnershut.com"
+                    class="mt-1 block break-words text-[14.5px] font-bold text-bh-text transition-colors hover:text-brand-600 dark:hover:text-brand-300">
+                    info@beginnershut.com
+                  </a>
+                </span>
+              </li>
+              <li class="flex items-start gap-3.5">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-500/12 text-accent-600 dark:text-accent-400">
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.2a1 1 0 0 1 .96.74l.72 2.88a1 1 0 0 1-.27 1.02L5.7 8.9a11.6 11.6 0 0 0 5.4 5.4l1.26-1.4a1 1 0 0 1 1.02-.28l2.88.72a1 1 0 0 1 .74.96v2.2a1.5 1.5 0 0 1-1.5 1.5C8.5 18 2 11.5 2 4.5Z"/></svg>
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-[11px] font-bold uppercase tracking-[0.14em] text-bh-faint">Phone</span>
+                  <a href="tel:+8801769021221"
+                    class="mt-1 block text-[14.5px] font-bold text-bh-text transition-colors hover:text-brand-600 dark:hover:text-brand-300">
+                    +8801769021221
+                  </a>
+                  <a href="tel:+8801976375435"
+                    class="mt-0.5 block text-[14.5px] font-bold text-bh-text transition-colors hover:text-brand-600 dark:hover:text-brand-300">
+                    +8801976375435
+                  </a>
+                </span>
+              </li>
+              <li class="flex items-start gap-3.5">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sun-500/15 text-sun-600 dark:text-sun-400">
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" />
+                    <circle cx="12" cy="10" r="2.6" />
+                  </svg>
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-[11px] font-bold uppercase tracking-[0.14em] text-bh-faint">Studio</span>
+                  <span class="mt-1 block text-[14.5px] font-bold leading-relaxed text-bh-text">
+                    198 Vasantek, Dhaka Cantonment<br>Dhaka-1206, Bangladesh
+                  </span>
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- map placeholder -->
+          <div class="bh-card bh-reveal overflow-hidden" style="transition-delay:80ms">
+            <div class="bh-media" style="aspect-ratio:16/9">
+              <img src="{% static 'images/placeholders/hero-secondary.svg' %}" alt="Office location map placeholder"
+                width="600" height="600" loading="lazy" class="opacity-90">
+              <span class="absolute left-3 top-3 rounded-full bg-bh-surface px-3 py-1 text-[11px] font-bold
+                           uppercase tracking-[0.1em] text-brand-700 shadow-card dark:text-brand-300">
+                Map placeholder
+              </span>
+              <a href="https://www.google.com/maps/search/?api=1&query=Vasantek+Dhaka+Cantonment"
+                target="_blank" rel="noopener noreferrer"
+                class="absolute inset-0 z-10" aria-label="Open location in Google Maps"></a>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3 p-5">
+              <span class="text-[14px] font-extrabold text-bh-text">Visit the studio</span>
+              <a href="https://www.google.com/maps/search/?api=1&query=Vasantek+Dhaka+Cantonment" target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-[13px] font-bold text-brand-600 hover:text-brand-500 dark:text-brand-300">
+                Open in Maps
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 5h5v5M19 5l-8 8M18 14v4a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 18V8a1.5 1.5 0 0 1 1.5-1.5h4" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

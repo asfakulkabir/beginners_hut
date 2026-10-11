@@ -1,0 +1,121 @@
+{% extends "blog/blog_base.html" %}
+{% load static %}
+{% block meta %}
+<meta name="description" content="{{blog_post.meta_description}}">
+<meta name="author" content="{{blog_post.author}}">
+<meta property="og:url" content="https://beginnershut.com/blog/blog_post/{{blog_post.slug}}">
+<meta property="og:title" content="{{blog_post.title}}">
+<meta property="og:description" content="{{blog_post.meta_description}}">
+{% if blog_post.image %}<meta property="og:image" content="https://beginnershut.com{{ blog_post.image.url }}">{% endif %}
+{% endblock meta %}
+
+{% block title %}{{blog_post.title}} · Beginners Hut{% endblock title %}
+
+{% block content %}
+<article class="bh-section py-20 md:py-28">
+  <div class="mx-auto max-w-7xl p-3">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-bh-muted">
+        <span class="bh-chip">{{ blog_post.category }}</span>
+        <span>·</span>
+        <time datetime="{{ blog_post.date_time|date:'Y-m-d' }}">{{ blog_post.date_time|date:"d M, Y" }}</time>
+      </div>
+      <a href="{% url 'blog' %}" class="btn btn-ghost group/btn">
+        <svg class="h-4 w-4 transition-transform group-hover/btn:-translate-x-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 1.414L5.414 9H17a1 1 0 1 1 0 2H5.414l4.293 4.293a1 1 0 0 1 0 1.414Z" clip-rule="evenodd" />
+        </svg>
+        Back to blog
+      </a>
+    </div>
+
+    <h1 class="bh-title">{{blog_post.title}}</h1>
+    {% if blog_post.meta_description %}
+    <p class="bh-subtitle mt-3 max-w-3xl">{{ blog_post.meta_description }}</p>
+    {% endif %}
+
+    {% if blog_post.image %}
+    <div class="mt-8">
+      <div class="aspect-[3/1] w-full overflow-hidden rounded-2xl border border-bh-line bg-bh-surface-2">
+        <img src="{{ blog_post.image.url }}" class="h-full w-full object-cover" alt="{{blog_post.title}}" />
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+      <div class="bh-rich w-full lg:w-3/4">
+        {{blog_post.content|safe}}
+      </div>
+
+      <aside class="w-full lg:w-1/4">
+        <div class="bh-card p-5">
+          <div class="flex items-center gap-3">
+            <img src="{% static 'images/icons/author.png' %}" class="h-10 w-10 rounded-full object-cover" alt="{{ blog_post.author }} avatar" />
+            <div>
+              <p class="text-sm font-bold text-bh-text">{{blog_post.author}}</p>
+              <p class="text-[12px] font-semibold uppercase tracking-[0.18em] text-bh-muted">Author</p>
+            </div>
+          </div>
+          {% if blog_post.about_author %}
+          <p class="mt-3 text-[15px] leading-relaxed text-bh-muted">{{blog_post.about_author}}</p>
+          {% endif %}
+          {% if blog_post.author_profile_link %}
+          <a href="{{blog_post.author_profile_link}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-4 w-full justify-center">
+            Follow
+          </a>
+          {% endif %}
+        </div>
+
+        <a href="{% url 'blog' %}" class="btn btn-ghost mt-3 w-full justify-center">
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 1.414L5.414 9H17a1 1 0 1 1 0 2H5.414l4.293 4.293a1 1 0 0 1 0 1.414Z" clip-rule="evenodd" />
+          </svg>
+          Back to blog page
+        </a>
+      </aside>
+    </div>
+  </div>
+</article>
+
+{% if blog_posts %}
+<section class="bh-section pt-0">
+  <div class="mx-auto max-w-7xl">
+    <h2 class="text-2xl font-extrabold tracking-tight text-bh-text">Other articles</h2>
+    <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {% for post in blog_posts %}
+      <article class="bh-card bh-card-hover group flex h-full flex-col">
+        <a href="{% url 'blog_post' post.slug %}" class="block overflow-hidden rounded-xl bg-bh-surface-2">
+          {% if post.image %}
+          <div class="aspect-[3/1] h-full w-full overflow-hidden">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="h-full w-full object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.06]">
+          </div>
+          {% else %}
+          <div class="aspect-[3/1] h-full w-full bg-bh-surface-2"></div>
+          {% endif %}
+        </a>
+        <div class="flex flex-1 flex-col gap-3 p-6">
+          <div class="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-bh-muted">
+            <span class="bh-chip">{{ post.category }}</span>
+            <time datetime="{{ post.date_time|date:'Y-m-d' }}">{{ post.date_time|date:"d M, Y" }}</time>
+          </div>
+          <a href="{% url 'blog_post' post.slug %}" class="block">
+            <h3 class="text-lg font-extrabold leading-snug text-bh-text transition-colors hover:text-brand-600 dark:hover:text-brand-300">{{ post.title }}</h3>
+          </a>
+          {% if post.meta_description %}
+          <p class="text-[15px] leading-relaxed text-bh-muted">{{ post.meta_description|truncatechars:140 }}</p>
+          {% endif %}
+          <div class="mt-auto">
+            <a href="{% url 'blog_post' post.slug %}" class="btn btn-ghost group/btn">
+              Read article
+              <svg class="h-4 w-4 transition-transform group-hover/btn:translate-x-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L14.586 11H3a1 1 0 1 1 0-2h11.586l-4.293-4.293a1 1 0 0 1 0-1.414Z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

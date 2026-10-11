@@ -1,0 +1,199 @@
+/* static/src/main.css — shared overrides for Beginners Hut
+   NOTE: the Beginners Hut portfolio frontend is styled from
+   static/src/input.css (Tailwind + design tokens). This file only holds
+   third-party tweaks and a few shared utilities that are easier to keep
+   as plain CSS. */
+
+/* ---------- selection ---------- */
+::selection {
+  background: #087f5b;
+  color: #fff;
+}
+
+/* ---------- Lenis smooth scroll ---------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ---------- lightbox ----------
+   lightbox.js positions #lightbox with inline `top: scrollTop + positionFromTop`
+   and sizes #lightboxOverlay to `$(document).height()`, both absolute. That makes
+   the overlay follow the document instead of the viewport, so on a scrolled
+   page (and on short phone screens) the overlay never covered the image and the
+   lightbox dragged the page sideways. Pin both to the viewport and ignore the
+   inline values — `!important` is required to beat an inline style. */
+#lightbox,
+#lightboxOverlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden;
+}
+
+#lightbox {
+  padding-top: clamp(28px, 7vh, 56px);
+  padding-bottom: clamp(28px, 7vh, 56px);
+}
+
+/* ---------- lightbox scroll lock ----------
+   lightbox.js marks <body>; <html> is the scroll container, so lock it too.
+   main.js stops Lenis and toggles the same class as a JS fallback. */
+html.bh-scroll-locked,
+html:has(body.lb-disable-scrolling) {
+  overflow: hidden;
+}
+
+/* Long CMS titles must wrap instead of widening the caption box. */
+.lb-data .lb-caption,
+.lb-data .lb-number {
+  overflow-wrap: anywhere;
+}
+
+/* Comfortable touch targets on phones — the default 30px close button is
+   smaller than the 44px guideline. */
+@media (max-width: 640px) {
+  .lb-data .lb-close {
+    width: 44px;
+    height: 44px;
+    background-size: 30px 30px;
+  }
+}
+
+/* ---------- Swiper arrow colours (follow the brand) ---------- */
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  color: #087f5b !important;
+}
+
+/* ---------- floating helpers ---------- */
+.floating {
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 8px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.floating-4 {
+  animation-name: floating;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+/* ---------- dashboard/blog legacy utility ---------- */
+@property --num {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+
+/* ---------- Swiper edge cases ----------
+   Swiper needs an explicit height context in some admin/blog layouts. */
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- [hidden] must win over display utilities ----------
+   Tailwind's `.flex` / `.grid` on portfolio cards would otherwise beat the
+   browser's `[hidden] { display: none }` rule and break the filters. */
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   NAVBAR SCROLL STATE
+   main.js only toggles `.is-scrolled` on #bh-nav — all motion lives here.
+   ========================================================================== */
+
+#bh-nav {
+  border-bottom-color: transparent;
+}
+
+#bh-nav-strip {
+  max-height: 44px;
+  opacity: 1;
+  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+#bh-nav-bar {
+  background-color: rgb(var(--bh-nav-bg) / 0);
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* scrolled state: collapse the strip, frost the main bar */
+#bh-nav.is-scrolled #bh-nav-strip {
+  max-height: 0;
+  opacity: 0;
+  border-bottom-color: transparent;
+}
+
+#bh-nav.is-scrolled #bh-nav-bar {
+  background-color: rgb(var(--bh-nav-bg) / 0.82);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
+  box-shadow: 0 1px 0 rgb(var(--bh-line) / 0.9), 0 12px 34px -26px rgb(16 35 29 / 0.55);
+}
+
+#bh-nav.is-scrolled {
+  border-bottom-color: rgb(var(--bh-line));
+}
+
+/* ---------- burger -> X ---------- */
+[data-bh-burger].is-open .bh-burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+[data-bh-burger].is-open .bh-burger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.4);
+}
+[data-bh-burger].is-open .bh-burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- active nav link ---------- */
+[data-bh-navlink].is-active {
+  color: rgb(var(--bh-green));
+}
+:root:not(.dark) [data-bh-navlink].is-active {
+  color: #087f5b;
+}
+.dark [data-bh-navlink].is-active {
+  color: #71c8a9;
+}

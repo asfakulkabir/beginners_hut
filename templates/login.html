@@ -1,0 +1,70 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="shortcut icon" href="{% static 'images/icons/favicon.png' %}">
+  <title>Sign in · Beginners Hut</title>
+
+  <script>
+    (function () {
+      var stored = localStorage.getItem('color-theme');
+      var dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="{% static 'src/output.css' %}">
+</head>
+
+<body class="bh-auth">
+  <div class="w-full">
+    <div class="mb-8 flex justify-center">
+      <a href="/" class="flex items-center gap-2.5" aria-label="Beginners Hut home">
+        <img src="{% static 'images/icons/logo.png' %}" alt="" width="44" height="44" class="h-11 w-11">
+        <span class="font-display text-lg font-extrabold text-bh-text">Beginners Hut</span>
+      </a>
+    </div>
+
+    <div class="bh-auth-card">
+      <h1 class="font-display text-2xl font-extrabold text-bh-text">Admin sign in</h1>
+      <p class="mt-2 text-sm text-bh-muted">Superuser accounts only.</p>
+
+      {% if messages %}
+      <div class="mt-5 space-y-2">
+        {% for message in messages %}
+        <div class="rounded-xl border px-4 py-3 text-[13px] font-semibold {% if 'error' in message.tags %}border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300{% else %}border-bh-line bg-bh-surface-2 text-bh-muted{% endif %}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <form method="POST" class="mt-6">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next|default:'' }}">
+
+        <div class="bh-field">
+          <label class="bh-label" for="id_username">Username</label>
+          <input class="bh-input" type="text" name="username" id="id_username" value="{{ username|default:'' }}"
+            autocomplete="username" autofocus required>
+        </div>
+
+        <div class="bh-field">
+          <label class="bh-label" for="id_password">Password</label>
+          <input class="bh-input" type="password" name="password" id="id_password" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="bh-btn bh-btn-primary w-full">Sign in</button>
+      </form>
+
+      <p class="mt-6 text-center text-[12px] text-bh-faint">
+        <a href="/" class="font-bold text-bh-muted hover:text-bh-text">← Back to the website</a>
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>

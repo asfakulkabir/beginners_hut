@@ -1,0 +1,28 @@
+{% comment %}
+Row actions: optional extra buttons via the `extra` block is not supported in an
+include, so screens that need one add it themselves. This covers edit + delete.
+
+  {% include 'dashboard/_row_actions.html' with edit_url=... delete_url=... label='testimonial' %}
+{% endcomment %}
+<div class="bh-actions">
+  {% if edit_url %}
+  <a class="bh-icon-btn" href="{{ edit_url }}" title="Edit {{ label }}" aria-label="Edit {{ label }}">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path d="M13.586 3.586a2 2 0 0 1 2.828 2.828l-8.5 8.5a2 2 0 0 1-1.06.44l-2.913.583a.75.75 0 0 1-.912-.912l.583-2.913a2 2 0 0 1 .44-1.06l8.5-8.5Z" />
+    </svg>
+  </a>
+  {% endif %}
+
+  {% if delete_url %}
+  <form method="POST" action="{{ delete_url }}" class="inline" data-bh-confirm-title="Delete this {{ label }}?"
+    data-bh-confirm-body="This cannot be undone." data-bh-confirm-label="Delete">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <button type="submit" class="bh-icon-btn bh-icon-btn-danger" title="Delete {{ label }}" aria-label="Delete {{ label }}">
+      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M8.5 2.5a1 1 0 0 0-1 1V4H5.5a.75.75 0 0 0 0 1.5h9a.75.75 0 0 0 0-1.5h-2V3.5a1 1 0 0 0-1-1h-3ZM5 7.5h10l-.6 8.06A2 2 0 0 1 12.4 17.5H7.6a2 2 0 0 1-2-1.94L5 7.5Zm4 1.75a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Zm4.5 0a.75.75 0 0 0-1.5 0v6a.75.75 0 0 0 1.5 0v-6Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </form>
+  {% endif %}
+</div>

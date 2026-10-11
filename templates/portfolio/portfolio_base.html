@@ -1,0 +1,135 @@
+{% load compress %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T9Z9ERK1Q0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T9Z9ERK1Q0');
+</script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="IT solution, Web development, Graphics design company, E-commerce consultation, Video editing, Bangladesh">
+  <meta name="author" content="Asfakul Kabir, Najmus Sakib">
+  <meta name="theme-color" content="#087F5B" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#10231D" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="index, follow">
+  {% block canonical %}{% endblock canonical %}
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/favicon-32.png' %}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/icons/favicon.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icons/apple-touch-icon.png' %}">
+
+  <!-- Theme + scroll-reveal bootstrap.
+       Both must run before first paint: the theme class to avoid a flash of
+       the wrong colours, `bh-reveal-ready` so the reveal animations can start
+       from the hidden state without hiding content when JS is unavailable. -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('bh-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.style.colorScheme = theme;
+      } catch (e) {}
+
+      document.documentElement.classList.add('bh-reveal-ready');
+    })();
+  </script>
+
+  <!-- fonts: Manrope + Hind Siliguri (Bangla) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Lenis smooth scroll.
+       NO defer: deferred scripts always run AFTER the parser-blocking
+       main.js at the end of <body>, which would leave window.Lenis undefined
+       and silently disable smooth scrolling entirely. -->
+  <script src="{% static 'js/scroll.min.js' %}"></script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+
+  {% block meta %}{% endblock meta %}
+  <title>{% block title %} {% endblock title %}</title>
+
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'src/output.css' %}">
+  <link rel="stylesheet" href="{% static 'src/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'src/main.css' %}">
+  <link rel="stylesheet" href="{% static 'src/swiper-bundle.min.css' %}">
+  <link rel="stylesheet" href="{% static 'src/lightbox.css' %}">
+  {% endcompress %}
+
+  {% block extra_head %}{% endblock extra_head %}
+</head>
+
+<!-- overflow-x clipping lives on <html> (see input.css) — putting it on
+     <body> here would break Lenis by making the body a scroll container -->
+<body class="site-shell bg-bh-bg text-bh-text">
+
+  <!-- go to top button (visibility toggled by main.js) -->
+  <a id="go_to_top_button" href="#top" aria-label="Go to top" data-bh-scroll-top
+    class="group fixed bottom-6 left-6 z-[90] hidden h-12 w-12 items-center justify-center rounded-full
+           bg-brand-gradient text-white shadow-glow transition-all duration-500 ease-smooth
+           hover:-translate-y-1 focus-visible:flex">
+    <svg class="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </a>
+  <!-- go to top button end -->
+
+  {% include 'portfolio/portfolio_nav.html' %}
+
+  {% if messages %}
+  <div id="bh-flash" role="alert"
+    class="fixed left-1/2 top-24 z-[100] w-[min(92vw,26rem)] -translate-x-1/2
+           rounded-2xl border border-brand-500/30 bg-bh-surface p-4 shadow-card-hover
+           flex items-start gap-3">
+    <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-500/12 text-brand-600 dark:text-brand-300">
+      <svg class="h-4 w-4" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+      </svg>
+    </span>
+    <div class="flex-1 text-sm font-semibold text-bh-text">
+      {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+    </div>
+    <button type="button" data-bh-dismiss aria-label="Close"
+      class="-m-1.5 rounded-lg p-1.5 text-bh-faint transition-colors hover:bg-bh-surface-2 hover:text-bh-text">
+      <svg class="h-3.5 w-3.5" aria-hidden="true" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round">
+        <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+      </svg>
+    </button>
+  </div>
+  {% endif %}
+
+  <main id="top">
+    {% block content %}
+    {% endblock content %}
+  </main>
+
+  {% include 'portfolio/footer.html' %}
+
+  <script src="{% static 'js/flowbite.min.js' %}"></script>
+  <script src="{% static 'js/lightbox.js' %}"></script>
+
+  {% compress js %}
+  <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  {% endcompress %}
+
+  {% block extra_scripts %}{% endblock extra_scripts %}
+</body>
+</html>

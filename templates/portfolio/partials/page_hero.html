@@ -1,0 +1,36 @@
+{% comment %}
+  Reusable hero for inner portfolio pages.
+
+  Usage (keep the include tag on ONE line):
+    see templates/portfolio/about.html for a working example.
+
+  Django gotchas this file exists to avoid:
+    1. `include ... with a=1 b=2` is silently NOT parsed when the arguments
+       span multiple lines — the tag is emitted as literal text instead.
+    2. `{# ... #}` comments are single-line only; never wrap them across lines.
+{% endcomment %}
+
+<section class="relative overflow-hidden border-b border-bh-line pb-14 pt-[104px] sm:pb-16 lg:pb-20 lg:pt-[150px]">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="bh-grid-bg absolute inset-0"></div>
+    <div class="bh-blob left-[-12%] top-[-30%] h-[22rem] w-[22rem] bg-brand-300/25 dark:bg-brand-600/20"></div>
+    <div class="bh-blob right-[-10%] top-[10%] h-[18rem] w-[18rem] bg-accent-300/20 dark:bg-accent-600/15"></div>
+  </div>
+
+  <div class="bh-container">
+    <div class="max-w-3xl">
+      {% if eyebrow %}
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>{{ eyebrow }}</span>
+      {% endif %}
+      <h1 class="bh-title bh-reveal mt-5 text-[2.25rem] sm:text-5xl lg:text-[3.25rem]" style="transition-delay:60ms">
+        {{ title }}
+      </h1>
+      {% if subtitle %}
+      <p class="bh-subtitle bh-reveal mt-4 max-w-2xl" style="transition-delay:120ms">{{ subtitle }}</p>
+      {% endif %}
+      {% if cta_label and cta_url %}
+      <a href="{{ cta_url }}" class="btn-primary bh-reveal mt-8" style="transition-delay:180ms">{{ cta_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

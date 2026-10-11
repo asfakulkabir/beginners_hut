@@ -1,0 +1,72 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}Pricing{% endblock title %}
+{% block mobile_title %}Pricing{% endblock mobile_title %}
+
+{% block page_title %}Pricing{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">The plans shown in the homepage pricing section.</p>{% endblock page_sub %}
+{% block page_actions %}<a href="{% url 'admin_panel:add_pricing' %}" class="bh-btn bh-btn-primary">
+  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <path fill-rule="evenodd" d="M10 3.5a.75.75 0 0 1 .75.75v5h5a.75.75 0 0 1 0 1.5h-5v5a.75.75 0 0 1-1.5 0v-5h-5a.75.75 0 0 1 0-1.5h5v-5A.75.75 0 0 1 10 3.5Z" clip-rule="evenodd" />
+</svg>
+  New plan
+</a>{% endblock page_actions %}
+
+{% block inner %}
+<div class="bh-admin-card">
+  <div class="bh-admin-card-head">
+    <h2 class="bh-admin-card-title">{{ total }} plan{{ total|pluralize }}{% if active_total != total %} · {{ active_total }} visible{% endif %}</h2>
+    <form method="GET" class="bh-search" role="search">
+      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 3.4 9.84l3.13 3.13a.75.75 0 1 0 1.06-1.06l-3.13-3.13A5.5 5.5 0 0 0 9 3.5ZM5 9a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" />
+      </svg>
+      <label class="sr-only" for="bh-pricing-search">Search plans</label>
+      <input id="bh-pricing-search" type="search" name="q" value="{{ term }}" class="bh-input" placeholder="Search plans…">
+      <button type="submit" class="sr-only">Search</button>
+    </form>
+  </div>
+
+  {% if plans %}
+  <ul class="divide-y divide-bh-line/60">
+    {% for plan in plans %}
+    <li class="flex flex-wrap items-center gap-3 px-5 py-4">
+      <div class="min-w-0 flex-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="truncate text-[14px] font-bold text-bh-text">{{ plan.title }}</span>
+          {% if plan.is_featured %}<span class="bh-chip bh-chip-brand">Featured</span>{% endif %}
+          {% if plan.is_active %}
+          <span class="bh-badge bh-badge-live">Visible</span>
+          {% else %}
+          <span class="bh-badge bh-badge-draft">Hidden</span>
+          {% endif %}
+        </div>
+        <p class="bh-cell-sub">
+          {{ plan.price }}{% if plan.period %} {{ plan.period }}{% endif %}
+          · {{ plan.feature_list|length }} feature{{ plan.feature_list|length|pluralize }}
+          {% if plan.tagline %}· {{ plan.tagline }}{% endif %}
+        </p>
+      </div>
+
+      <form method="POST" action="{% url 'admin_panel:toggle_pricing_active' plan.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="bh-btn bh-btn-sm">{% if plan.is_active %}Hide{% else %}Show{% endif %}</button>
+      </form>
+
+      {% url 'admin_panel:update_pricing' plan.pk as edit_url %}
+      {% url 'admin_panel:delete_pricing' plan.pk as delete_url %}
+      {% include 'dashboard/_row_actions.html' with edit_url=edit_url delete_url=delete_url label='plan' %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% include 'dashboard/_pagination.html' with page=plans %}
+  {% else %}
+  <div class="bh-empty">
+    <p class="text-sm font-bold text-bh-text">{% if term %}No plans match “{{ term }}”.{% else %}No pricing plans yet.{% endif %}</p>
+    <p class="max-w-md text-[13px] text-bh-muted">The pricing section stays hidden on the homepage until at least one plan is visible.</p>
+    <a href="{% url 'admin_panel:add_pricing' %}" class="bh-btn bh-btn-primary mt-2">Add the first plan</a>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock inner %}

@@ -1,0 +1,210 @@
+{% extends "portfolio/portfolio_base.html" %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="Beginners Hut was started by Md Asfakul Kabir in 2021. We specialize in bringing your dreams to life — whether you require a good looking site, eye-catching design, impactful social media showcasing, or professional video editing.">
+<meta name="author" content="Md. Asfakul Kabir, Najmus Sakib">
+<meta property="og:title" content="About Us — Beginners Hut">
+<meta property="og:description" content="A full-stack IT solution team in Dhaka, Bangladesh. Websites, software, graphics, e-commerce and video — one accountable team.">
+<meta property="og:image" content="/static/portfolio_image/beginnershut_about_us_logo.webp">
+{% endblock meta %}
+
+{% block title %}About Us — Beginners Hut{% endblock title %}
+
+{% block content %}
+
+{# Keep this include on ONE line: Django silently breaks `include ... with` when the arguments span multiple lines. #}
+{% include 'portfolio/partials/page_hero.html' with eyebrow="About us" title="Bringing your dreams to life" subtitle="At Beginners Hut we specialise in turning ideas into products that work — a good-looking site, eye-catching design, impactful social media content, or professional video editing." %}
+
+<!-- ===================== STORY + TEAM ===================== -->
+<section class="bh-section">
+  <div class="bh-container">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-14">
+
+      <div class="bh-reveal order-2 lg:order-1">
+        <!-- asfakul.webp is a transparent cutout, so it sits straight on the
+             tinted panel — no card background of its own, and no cropping. -->
+        <figure class="relative overflow-hidden rounded-[2rem] border border-bh-line bg-bh-surface-2/60 px-6 pb-0 pt-8 shadow-card">
+          <img src="{% static 'portfolio_image/asfakul.webp' %}" alt="Md Asfakul Kabir, founder of Beginners Hut"
+            width="430" height="527" loading="lazy" decoding="async"
+            class="mx-auto h-auto w-full max-w-[26rem] object-contain" />
+
+          <figcaption class="relative -mt-6 rounded-t-2xl border-t border-bh-line bg-bh-surface px-5 py-4 text-center">
+            <span class="block font-display text-[17px] font-extrabold text-bh-text">Md Asfakul Kabir</span>
+            <span class="mt-0.5 block text-[13px] font-semibold text-brand-600 dark:text-brand-300">
+              Founder &amp; Lead Developer
+            </span>
+          </figcaption>
+        </figure>
+
+        <div class="mt-5 flex items-center gap-4 rounded-2xl border border-bh-line bg-bh-surface p-5 shadow-card">
+          <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-500/12 text-brand-600 dark:text-brand-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" />
+              <circle cx="12" cy="10" r="2.6" />
+            </svg>
+          </span>
+          <span>
+            <span class="block text-[15px] font-extrabold text-bh-text">Based in Dhaka, Bangladesh</span>
+            <span class="block text-[13px] font-semibold text-bh-muted">Working with clients worldwide</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="order-1 lg:order-2">
+        <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Who we are</span>
+        <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">
+          Driven by a passion for <span class="bh-text-gradient">seamless experiences</span>
+        </h2>
+        <p class="bh-subtitle bh-reveal mt-5" style="transition-delay:120ms">
+          <strong class="font-extrabold text-bh-text">Md Asfakul Kabir started this agency in 2021.</strong>
+          What began as a one-person desk in Dhaka is now a compact team of developers, designers and
+          strategists who believe good software should be fast, good design should be obvious, and good
+          communication should be the default — not an upgrade.
+        </p>
+        <p class="bh-subtitle bh-reveal mt-4" style="transition-delay:160ms">
+          Our mission is to give growing businesses everything they need online from one accountable
+          team, so nothing falls between vendors and every deadline is met.
+        </p>
+
+        <ul class="mt-7 grid gap-3 sm:grid-cols-2">
+          {% for point in "0123" %}
+          <li class="bh-reveal flex items-start gap-3 rounded-xl border border-bh-line bg-bh-surface p-4"
+            style="transition-delay:{{ forloop.counter0 }}0ms">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m5 12 4.5 4.5L19 7" />
+            </svg>
+            <span class="text-[14px] font-bold leading-snug text-bh-text">
+              {% if forloop.counter == 1 %}Custom-built, never templated{% elif forloop.counter == 2 %}Mobile-first &amp; fast by default{% elif forloop.counter == 3 %}Transparent pricing{% else %}Support after launch{% endif %}
+            </span>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <a href="{% url 'contact_us' %}" class="btn-primary bh-reveal mt-8" style="transition-delay:220ms">
+          Work with us
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NUMBERS ===================== -->
+<!-- EDITABLE: replace these figures with your live numbers -->
+<section class="bh-section border-y border-bh-line bg-bh-surface-2/40">
+  <div class="bh-container">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Our results</span>
+      <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">Work that <span
+          class="bh-text-gradient">adds up</span></h2>
+    </div>
+
+    <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {% for i in "0123" %}
+      <div class="bh-card bh-card-hover bh-reveal p-7 text-center" style="transition-delay:{{ forloop.counter0 }}0ms">
+        {% if forloop.counter == 1 %}
+        <p class="text-4xl font-extrabold text-bh-text"><span data-bh-count="65" data-bh-suffix="+">0</span></p>
+        <p class="mt-3 text-lg font-extrabold text-bh-text">Projects delivered</p>
+        <p class="mt-2 text-[13.5px] leading-relaxed text-bh-muted">Websites, software and brand work shipped for clients across Bangladesh and beyond.</p>
+        {% elif forloop.counter == 2 %}
+        <p class="text-4xl font-extrabold text-bh-text"><span data-bh-count="60" data-bh-suffix="+">0</span></p>
+        <p class="mt-3 text-lg font-extrabold text-bh-text">Happy clients</p>
+        <p class="mt-2 text-[13.5px] leading-relaxed text-bh-muted">Long-term relationships built on clear communication and dependable delivery.</p>
+        {% elif forloop.counter == 3 %}
+        <p class="text-4xl font-extrabold text-bh-text"><span data-bh-count="98" data-bh-suffix="%">0</span></p>
+        <p class="mt-3 text-lg font-extrabold text-bh-text">Client satisfaction</p>
+        <p class="mt-2 text-[13.5px] leading-relaxed text-bh-muted">We measure success by whether the work keeps working after we hand it over.</p>
+        {% else %}
+        <p class="text-4xl font-extrabold text-bh-text"><span data-bh-count="24" data-bh-prefix="&lt;">0</span><span class="text-brand-500">h</span></p>
+        <p class="mt-3 text-lg font-extrabold text-bh-text">Support response</p>
+        <p class="mt-2 text-[13.5px] leading-relaxed text-bh-muted">Replies within one business day, on every channel you already use.</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="bh-section">
+  <div class="bh-container">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="bh-eyebrow bh-reveal"><span class="bh-eyebrow-dot"></span>Testimonials</span>
+      <h2 class="bh-title bh-reveal mt-5" style="transition-delay:60ms">What our <span
+          class="bh-text-gradient">clients say</span></h2>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {% for t in testimonial %}
+      <figure class="bh-card bh-card-hover bh-reveal flex h-full flex-col p-7" style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="flex items-center gap-1" aria-label="Rated 5 out of 5">
+          {% for i in "12345" %}
+          <svg class="h-4 w-4 text-sun-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 1.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L10 14.9l-5.3 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
+          </svg>
+          {% endfor %}
+        </div>
+
+        <blockquote class="mt-5 flex-1 text-[14.5px] leading-relaxed text-bh-muted font-bangla">
+          {{ t.content }}
+        </blockquote>
+
+        <figcaption class="mt-6 flex items-center gap-3.5 border-t border-bh-line pt-5">
+          <span class="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-bh-surface-2">
+            {% if t.image %}
+            <img src="/media/{{ t.image }}" alt="{{ t.title }}" width="48" height="48" loading="lazy"
+              class="h-full w-full object-cover">
+            {% else %}
+            <img src="{% static 'images/placeholders/avatar-1.svg' %}" alt="{{ t.title }} photo placeholder"
+              width="48" height="48" loading="lazy" class="h-full w-full object-cover">
+            {% endif %}
+          </span>
+          <span class="min-w-0">
+            <span class="block break-words text-[15px] font-extrabold text-bh-text">{{ t.title }}</span>
+            <span class="block text-[13px] font-semibold text-bh-faint">Verified client</span>
+          </span>
+        </figcaption>
+      </figure>
+      {% empty %}
+      <div class="bh-panel bh-reveal col-span-full p-10 text-center">
+        <p class="text-sm text-bh-muted">Testimonials will appear here once added from the admin panel.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="pb-4">
+  <div class="bh-container">
+    <div class="bh-reveal relative overflow-hidden rounded-[2rem] bg-brand-gradient px-7 py-12 shadow-glow sm:px-12">
+      <img src="{% static 'images/placeholders/cta-bg.svg' %}" alt="" aria-hidden="true" width="1200" height="600"
+        loading="lazy" class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90 mix-blend-soft-light">
+      <div class="relative flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-left">
+        <div>
+          <h2 class="text-2xl font-extrabold text-white sm:text-3xl">Let's build your next project</h2>
+          <p class="mt-2.5 max-w-lg text-[15px] leading-relaxed text-white/85">
+            Tell us the goal — you will get a clear plan, an honest quote and a delivery date.
+          </p>
+        </div>
+        <a href="{% url 'contact_us' %}"
+          class="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-brand-700
+                 shadow-card transition-transform duration-300 ease-smooth hover:-translate-y-0.5">
+          Start a project
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

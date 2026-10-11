@@ -1,0 +1,98 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}Messages{% endblock title %}
+{% block mobile_title %}Messages{% endblock mobile_title %}
+
+{% block page_title %}Messages{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">Enquiries from the contact form.</p>{% endblock page_sub %}
+
+{% block inner %}
+<div class="bh-admin-card">
+  <div class="bh-admin-card-head">
+    <div class="bh-tabs">
+      <a class="bh-tab" aria-selected="{% if state == 'unread' %}true{% else %}false{% endif %}"
+        href="?state=unread{% if term %}&amp;q={{ term|urlencode }}{% endif %}">Unread <span class="bh-tab-count">{{ unread_total }}</span></a>
+      <a class="bh-tab" aria-selected="{% if state == 'read' %}true{% else %}false{% endif %}"
+        href="?state=read{% if term %}&amp;q={{ term|urlencode }}{% endif %}">Read <span class="bh-tab-count">{{ read_total }}</span></a>
+      <a class="bh-tab" aria-selected="{% if state == 'all' %}true{% else %}false{% endif %}"
+        href="?state=all{% if term %}&amp;q={{ term|urlencode }}{% endif %}">All <span class="bh-tab-count">{{ total }}</span></a>
+    </div>
+
+    <form method="GET" class="bh-search" role="search">
+      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 3.4 9.84l3.13 3.13a.75.75 0 1 0 1.06-1.06l-3.13-3.13A5.5 5.5 0 0 0 9 3.5ZM5 9a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" />
+      </svg>
+      <label class="sr-only" for="bh-contact-search">Search messages</label>
+      <input id="bh-contact-search" type="search" name="q" value="{{ term }}" class="bh-input" placeholder="Search email, subject, body…">
+      <input type="hidden" name="state" value="{{ state }}">
+      <button type="submit" class="sr-only">Search</button>
+    </form>
+  </div>
+
+  {% if contacts %}
+  <ul class="divide-y divide-bh-line/60">
+    {% for contact in contacts %}
+    <li class="px-5 py-4">
+      <div class="flex flex-wrap items-start gap-x-4 gap-y-3">
+        <button type="button" class="bh-toggle min-w-0 flex-1" data-bh-expand aria-controls="msg-{{ contact.id }}"
+          aria-expanded="false">
+          {% if not contact.is_read %}
+          <span class="bh-unread-dot" title="Unread"></span>
+          {% else %}
+          <span class="mt-1.5 h-2 w-2 shrink-0"></span>
+          {% endif %}
+
+          <span class="min-w-0 flex-1">
+            <span class="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span class="truncate text-[14px] {% if contact.is_read %}font-semibold text-bh-muted{% else %}font-extrabold text-bh-text{% endif %}">{{ contact.subject }}</span>
+              {% if not contact.is_read %}<span class="bh-badge bh-badge-unread">New</span>{% endif %}
+            </span>
+            <span class="mt-1 block truncate text-[13px] text-bh-muted">{{ contact.mail }}</span>
+          </span>
+        </button>
+
+        <span class="whitespace-nowrap text-[12px] text-bh-faint">{{ contact.time|date:'j M Y, H:i' }}</span>
+
+        <div class="bh-actions">
+          <form method="POST" action="{% url 'admin_panel:toggle_contact_read' contact.pk %}" class="inline">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type="submit" class="bh-btn bh-btn-sm" title="Mark as {% if contact.is_read %}unread{% else %}read{% endif %}">
+              {% if contact.is_read %}Mark unread{% else %}Mark read{% endif %}
+            </button>
+          </form>
+          <a class="bh-icon-btn" href="mailto:{{ contact.mail }}?subject=Re:%20{{ contact.subject|urlencode }}"
+            title="Reply by email" aria-label="Reply to {{ contact.mail }}">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h13A1.5 1.5 0 0 1 18 5.5v7a1.5 1.5 0 0 1-1.5 1.5H8.4l-3.6 3.2A.75.75 0 0 1 3.6 16.6V14h-.1A1.5 1.5 0 0 1 2 12.5v-7Z" />
+            </svg>
+          </a>
+          {% url 'admin_panel:delete_contact' contact.pk as delete_url %}
+          {% include 'dashboard/_row_actions.html' with delete_url=delete_url label='message' %}
+        </div>
+      </div>
+
+      <div id="msg-{{ contact.id }}" class="mt-3 hidden pl-5" data-bh-panel>
+        <p class="bh-detail rounded-xl border border-bh-line bg-bh-surface-2/50 p-4">{{ contact.message }}</p>
+        <p class="mt-2 text-[12px] text-bh-faint">
+          C_{{ contact.id }} · received {{ contact.time|date:'j M Y \a\t H:i' }}
+          {% if contact.read_at %}· read {{ contact.read_at|date:'j M Y, H:i' }}{% endif %}
+        </p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% include 'dashboard/_pagination.html' with page=contacts %}
+  {% else %}
+  <div class="bh-empty">
+    <p class="text-sm font-bold text-bh-text">
+      {% if term %}No messages match “{{ term }}”.{% elif state == 'unread' %}Nothing unread.{% else %}No messages yet.{% endif %}
+    </p>
+    {% if term or state != 'all' %}
+    <a href="{% url 'admin_panel:contact_message' %}" class="bh-btn bh-btn-sm mt-2">Show all</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock inner %}

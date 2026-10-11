@@ -1,0 +1,76 @@
+{% load static %}{% load compress %}<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="shortcut icon" href="{% static 'images/icons/favicon.png' %}">
+  <title>{% block title %}Dashboard{% endblock title %} · Beginners Hut</title>
+
+  <script>
+    /* Paint the stored theme before first paint, otherwise a dark-mode admin
+       flashes white on every page load. Key is shared with the public site so
+       one preference covers both. */
+    (function () {
+      var stored = localStorage.getItem('color-theme');
+      var dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+    })();
+  </script>
+
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'src/output.css' %}">
+  {% endcompress %}
+
+  {% block head %}{% endblock head %}
+</head>
+
+<body class="bg-bh-bg">
+
+  {% include 'dashboard/navbar_admin.html' %}
+
+  <main class="bh-admin-main">
+    <div class="bh-admin-wrap">
+
+      {% if messages %}
+      <div class="bh-toasts" id="bh-toasts">
+        {% for message in messages %}
+        <div class="bh-toast" data-bh-toast role="status">
+          <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full {% if 'error' in message.tags %}bg-red-500{% elif 'warning' in message.tags %}bg-amber-500{% elif 'success' in message.tags %}bg-brand-500{% else %}bg-bh-faint{% endif %}"></span>
+          <p class="flex-1 text-[13px] leading-relaxed">{{ message }}</p>
+          <button type="button" class="bh-icon-btn -mr-1 -mt-0.5" data-bh-toast-close aria-label="Dismiss notification">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+            </svg>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+          {% block content %}
+      <div class="bh-section-head">
+        <div class="min-w-0">
+          <h1 class="bh-admin-title">{% block page_title %}{% endblock page_title %}</h1>
+          {% block page_sub %}{% endblock page_sub %}
+        </div>
+        <div class="flex shrink-0 flex-wrap items-center gap-2">
+          {% block page_actions %}{% endblock page_actions %}
+        </div>
+      </div>
+
+      {% block inner %}{% endblock inner %}
+      {% endblock content %}
+
+    </div>
+  </main>
+
+  {% include 'dashboard/_confirm_dialog.html' %}
+
+  <script src="{% static 'js/admin.js' %}"></script>
+  {% block scripts %}{% endblock scripts %}
+
+</body>
+
+</html>

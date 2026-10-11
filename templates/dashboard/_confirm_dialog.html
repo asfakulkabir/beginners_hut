@@ -1,0 +1,23 @@
+{% comment %}
+One confirmation dialog for the whole panel. admin.js swaps in the wording of
+whichever form asked for it (see _delete_form.html) and blocks the submit until
+the admin confirms.
+{% endcomment %}
+<dialog class="bh-dialog" data-bh-dialog>
+  <div class="flex items-start gap-4">
+    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-500/12 text-red-600 dark:text-red-400">
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M8.34 2.77a1.75 1.75 0 0 1 3.32 0l5.14 8.9A1.75 1.75 0 0 1 15.2 14.5H4.8a1.75 1.75 0 0 1-1.6-2.83l5.14-8.9Zm1.41 3.5a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5Zm0 5.25a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z" clip-rule="evenodd" />
+      </svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 class="text-[15px] font-extrabold text-bh-text" data-bh-dialog-title>Are you sure?</h2>
+      <p class="mt-1.5 text-[13px] leading-relaxed text-bh-muted" data-bh-dialog-body>This cannot be undone.</p>
+    </div>
+  </div>
+
+  <div class="mt-5 flex justify-end gap-2">
+    <button type="button" class="bh-btn" data-bh-dialog-cancel>Cancel</button>
+    <button type="button" class="bh-btn bh-btn-primary !border-red-500/40 !bg-red-500 !shadow-none hover:!bg-red-600" data-bh-dialog-confirm>Delete</button>
+  </div>
+</dialog>

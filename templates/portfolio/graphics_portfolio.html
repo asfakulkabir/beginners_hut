@@ -1,0 +1,101 @@
+{% extends "portfolio/portfolio_base.html" %}
+{% load static %}
+
+{% block title %}Graphics Portfolio — Beginners Hut{% endblock title %}
+
+{% block canonical %}<link rel="canonical" href="https://www.beginnershut.com/graphics_portfolio/">{% endblock canonical %}
+
+{% block meta %}
+<meta name="description"
+  content="Brand graphics by Beginners Hut — print design, packaging artwork and social media graphics. Click any piece to view it full size.">
+<meta property="og:title" content="Graphics Portfolio — Beginners Hut">
+<meta property="og:description"
+  content="Print design, packaging and social media graphics by Beginners Hut.">
+<meta property="og:image" content="/static/portfolio_image/beginnershut_about_us_logo.webp">
+<meta property="og:url" content="https://www.beginnershut.com/graphics_portfolio/">
+<meta property="og:site_name" content="Beginners Hut">
+{% endblock meta %}
+
+{% block content %}
+
+{# Keep this include on ONE line: Django silently breaks `include ... with` when the arguments span multiple lines. #}
+{% include 'portfolio/partials/page_hero.html' with eyebrow="Graphics" title="Brand graphics &amp; artwork" subtitle="Packaging, print collateral and social media artwork. Click any piece to view it full size." %}
+
+<!-- ==================================================================
+     PHOTO GRID — nothing but photos. No title, no badge, no caption on
+     the tiles; the lightbox is the only place a title appears.
+     ================================================================== -->
+<section class="pb-20 sm:pb-24 lg:pb-28">
+  <div class="bh-container">
+
+    <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <a href="{% url 'all_work' %}" class="bh-filter">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M11 18l-6-6 6-6" />
+        </svg>
+        All web &amp; software work
+      </a>
+
+      <p class="text-[13px] font-semibold text-bh-faint">
+        <span class="font-extrabold text-bh-text">{{ photo_total }}</span> pieces
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+      {% for photo in photos %}
+      {# data-title is the lightbox caption; nothing else renders on the tile. #}
+      <a href="{{ photo.url }}" class="bh-photo-tile group" data-lightbox="graphics"
+        data-title="{{ photo.title }}" aria-label="View {{ photo.title }}">
+        <img src="{{ photo.url }}" alt="{{ photo.title }}" width="800" height="800" loading="lazy" decoding="async">
+      </a>
+      {% empty %}
+
+      <div class="col-span-full bh-panel bh-reveal flex flex-col items-center gap-3 p-12 text-center">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-500/10 text-accent-600 dark:text-accent-400">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2.5" />
+            <path d="m3 16 4.5-4.5 3 3L15 10l6 6" />
+          </svg>
+        </span>
+        <p class="text-lg font-extrabold text-bh-text">No artwork published yet</p>
+        <p class="max-w-sm text-sm text-bh-muted">
+          Add entries from the admin panel to fill this gallery, or ask us for a sample.
+        </p>
+        <a href="{% url 'contact_us' %}" class="btn-primary btn-sm mt-1">Request a sample</a>
+      </div>
+
+      {% endfor %}
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-16 flex flex-col items-center gap-4 rounded-3xl border border-bh-line bg-bh-surface-2/40 px-6 py-12 text-center">
+      <h2 class="bh-title max-w-xl">Need graphics that look <span class="bh-text-gradient">this good</span> for your brand?</h2>
+      <p class="max-w-lg text-[15px] leading-relaxed text-bh-muted">
+        Packaging, social campaigns, print collateral and full brand kits — designed and delivered by
+        the same team that builds your site.
+      </p>
+      <div class="mt-1 flex flex-wrap justify-center gap-3">
+        <a href="{% url 'contact_us' %}" class="btn-primary">
+          Start a design project
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+        <a href="{% url 'all_work' %}" class="btn-outline">See web &amp; software work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+  /* lightbox.js injects data-title into the caption with .html() by default.
+     These titles come from the database, so force text-only rendering. */
+  if (window.lightbox) window.lightbox.option({ sanitizeTitle: true });
+</script>
+{% endblock extra_scripts %}

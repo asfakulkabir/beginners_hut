@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container {
+            text-align: center;
+            /* was a flat 100px, which left only ~104px of content width at 320px */
+            padding: clamp(32px, 10vw, 100px);
+            max-width: 100%;
+        }
+        h1 {
+            font-size: clamp(28px, 9vw, 48px);
+            line-height: 1.1;
+            margin: 0 0 12px;
+            overflow-wrap: anywhere;
+            color: #ff5733;
+        }
+        p {
+            font-size: clamp(15px, 4.5vw, 18px);
+            line-height: 1.5;
+            margin: 0 0 20px;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            font-weight: bold;
+            text-decoration: none;
+            color: #ff5733;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Oops! Page Not Found</h1>
+        <p>The page you're looking for doesn't exist. Let's get you back on track:</p>
+        <a href="/" style="text-decoration: none; color: #ff5733;">Go to Homepage</a>
+    </div>
+</body>
+</html>

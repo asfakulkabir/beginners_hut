@@ -1,0 +1,67 @@
+{% extends 'dashboard/d_base.html' %}
+{% block title %}{{ heading }}{% endblock title %}
+{% block mobile_title %}{{ heading }}{% endblock mobile_title %}
+
+{% block page_title %}{{ heading }}{% endblock page_title %}
+{% block page_sub %}<p class="bh-admin-sub">{{ sub }}</p>{% endblock page_sub %}
+{% block page_actions %}<a href="{{ back_url }}" class="bh-btn"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 0 1-.02 1.06L9.06 10l3.71 3.71a.75.75 0 1 1-1.06 1.06l-4.24-4.24a.75.75 0 0 1 0-1.06l4.24-4.24a.75.75 0 0 1 1.06.02Z" clip-rule="evenodd" />
+</svg>
+Back</a>{% endblock page_actions %}
+
+{% block inner %}
+<form method="POST" class="max-w-3xl" novalidate>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+  <div class="mb-5 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+    {% for error in form.non_field_errors %}
+    <p class="text-[13px] font-semibold text-red-700 dark:text-red-300">{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="bh-admin-card">
+    <div class="bh-admin-card-head">
+      <h2 class="bh-admin-card-title">Plan</h2>
+    </div>
+    <div class="p-5 sm:p-6">
+      {% include 'dashboard/_form_field.html' with field=form.title %}
+      {% include 'dashboard/_form_field.html' with field=form.tagline %}
+      <div class="grid gap-x-5 sm:grid-cols-3">
+        {% include 'dashboard/_form_field.html' with field=form.price %}
+        {% include 'dashboard/_form_field.html' with field=form.period %}
+        {% include 'dashboard/_form_field.html' with field=form.order %}
+      </div>
+      {% include 'dashboard/_form_field.html' with field=form.description wide=True %}
+    </div>
+  </div>
+
+  <div class="mt-5 bh-admin-card">
+    <div class="bh-admin-card-head">
+      <h2 class="bh-admin-card-title">What's included</h2>
+    </div>
+    <div class="p-5 sm:p-6">
+      {% include 'dashboard/_form_field.html' with field=form.features wide=True %}
+    </div>
+  </div>
+
+  <div class="mt-5 bh-admin-card">
+    <div class="bh-admin-card-head">
+      <h2 class="bh-admin-card-title">Call to action &amp; visibility</h2>
+    </div>
+    <div class="p-5 sm:p-6">
+      {% include 'dashboard/_form_field.html' with field=form.cta_text %}
+      {% include 'dashboard/_form_field.html' with field=form.cta_link %}
+      {% include 'dashboard/_form_field.html' with field=form.is_featured check=True %}
+      {% include 'dashboard/_form_field.html' with field=form.is_active check=True %}
+    </div>
+  </div>
+
+  <div class="mt-6 flex flex-wrap items-center gap-3">
+    <button type="submit" class="bh-btn bh-btn-primary">{{ submit_label }}</button>
+    <a href="{{ back_url }}" class="bh-btn">Cancel</a>
+  </div>
+</form>
+
+{% endblock inner %}
